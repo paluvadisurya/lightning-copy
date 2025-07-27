@@ -1,0 +1,4976 @@
+/* Import Systems */
+@import './fonts.css';
+@import './colors.css';
+
+/* ===== THEME SWITCH ANIMATIONS ===== */
+
+/* Accessibility - Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    body,
+    body *,
+    .theme-icon,
+    #theme-toggle {
+        animation-duration: 0.1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.1ms !important;
+    }
+    
+    body.theme-switching::before {
+        animation: none !important;
+        transition-duration: 0.1ms !important;
+    }
+}
+
+/* Unified smooth theme transition for entire screen */
+body {
+    position: relative;
+    transition: none;
+}
+
+body * {
+    transition: none;
+}
+
+/* Hide borders during theme switching to prevent visual separation */
+body.theme-switching .universal-header {
+    border-bottom-color: transparent;
+    transition: background-color 0.1s ease, border-color 0.1s ease;
+}
+
+body.theme-switching .project-nav {
+    border-bottom-color: transparent;
+    transition: background-color 0.1s ease, border-color 0.1s ease;
+}
+
+/* Ensure all backgrounds transition simultaneously */
+body.theme-switching * {
+    transition: background-color 0.1s ease, color 0.1s ease, border-color 0.1s ease !important;
+}
+
+/* Unified screen transition overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10000;
+    transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+body.theme-switching::before {
+    opacity: 1;
+    animation: smoothColorWave 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes smoothColorWave {
+    0% {
+        opacity: 0;
+        background: var(--bg-primary);
+        transform: none;
+    }
+    25% {
+        opacity: 0.7;
+        background: radial-gradient(circle at center,
+            var(--bg-secondary) 0%,
+            var(--bg-primary) 70%);
+        transform: none;
+    }
+    50% {
+        opacity: 1;
+        background: linear-gradient(135deg, 
+            var(--bg-primary) 0%,
+            var(--bg-secondary) 30%,
+            var(--border-color) 60%,
+            var(--bg-primary) 100%);
+        transform: none;
+    }
+    75% {
+        opacity: 0.7;
+        background: radial-gradient(circle at center,
+            var(--bg-primary) 0%,
+            var(--bg-secondary) 70%);
+        transform: none;
+    }
+    100% {
+        opacity: 0;
+        background: var(--bg-primary);
+        transform: none;
+    }
+}
+
+.container {
+    transition: none;
+}
+
+/* Theme toggle button animations */
+#theme-toggle {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#theme-toggle:hover {
+    transform: none;
+    
+}
+
+/* Theme icon animations */
+.theme-icon {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+#theme-toggle:hover .theme-icon {
+    transform: none;
+}
+
+.theme-icon {
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] .moon-icon,
+[data-theme="dark"] .sun-icon {
+    animation: flipOut 0.3s ease-in;
+}
+
+[data-theme="light"] .sun-icon,
+[data-theme="dark"] .moon-icon {
+    animation: flipIn 0.3s ease-out 0.1s both;
+}
+
+@keyframes flipOut {
+    0% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: rotateY(90deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+@keyframes flipIn {
+    0% {
+        transform: rotateY(-90deg) scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+.universal-header,
+.project-nav,
+.main-content,
+.modal,
+.project-card,
+.snippet-card {
+    transition: none;
+}
+
+body.theme-switching {
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Legacy compatibility mappings for LightningCopy */
+:root {
+    --primary-color: var(--lightning-primary);
+    --primary-light: var(--lightning-primary-light);
+    --primary-lighter: var(--lightning-primary-lighter);
+    --secondary-color: var(--lightning-secondary);
+    --secondary-hover: var(--lightning-secondary-dark);
+    
+    /* Legacy clipzy mappings for backwards compatibility */
+    --clipzy-primary: var(--lightning-primary);
+    --clipzy-primary-light: var(--lightning-primary-light);
+    --clipzy-primary-lighter: var(--lightning-primary-lighter);
+    --clipzy-secondary: var(--lightning-secondary);
+    --clipzy-secondary-dark: var(--lightning-secondary-dark);
+    --clipzy-success: var(--lightning-success);
+    --clipzy-danger: var(--lightning-danger);
+    --clipzy-warning: var(--lightning-warning);
+    --clipzy-info: var(--lightning-info);
+}
+
+/* Body and Container - Chrome Extension Optimized */
+body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    width: 400px;
+    min-height: 600px;
+    max-height: 750px;
+    overflow: hidden;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    font-weight: var(--font-weight-normal);
+    box-sizing: border-box;
+}
+
+.container {
+    min-height: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    position: relative;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Universal Header */
+.universal-header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.header-left-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-lightning-icon {
+    width: 24px;
+    height: 24px;
+    transition: all var(--transition-fast);
+    color: var(--lightning-text-primary);
+    filter: none;
+}
+
+.header-lightning-icon:hover {
+    filter: none;
+    transform: none;
+}
+
+.header-logo {
+    width: 32px;
+    height: 32px;
+    color: var(--lightning-text-primary);
+    flex-shrink: 0;
+    filter: none;
+    transition: all var(--transition-normal);
+}
+
+.header-logo:hover {
+    filter: none;
+    transform: none;
+}
+
+/* Dark theme logo styling */
+[data-theme="dark"] .header-logo {
+    color: var(--lightning-text-primary);
+    filter: none;
+}
+
+[data-theme="dark"] .header-logo:hover {
+    filter: none;
+}
+
+/* PNG logo fallback styling for popup */
+.header-logo.logo-png {
+    filter: none !important;
+    color: initial !important;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-right {
+    flex: 0 0 auto;
+}
+
+.header-title {
+    margin: 0;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.header-subtitle {
+    margin: 2px 0 0 0;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-btn {
+    background: var(--lightning-bg-tertiary);
+    border: 1.5px solid var(--lightning-border-primary);
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--lightning-text-secondary);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--lightning-primary);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    border-radius: 10px;
+}
+
+.header-btn:hover {
+    background: var(--lightning-hover-bg);
+    color: var(--lightning-text-primary);
+    border-color: var(--lightning-border-secondary);
+}
+
+.header-btn:hover::before {
+    opacity: 0.05;
+}
+
+.header-btn.active {
+    background: var(--lightning-highlight-bg);
+    color: var(--lightning-text-primary);
+    border-color: var(--lightning-primary);
+}
+
+.header-btn.active::before {
+    opacity: 0.08;
+}
+
+[data-theme="dark"] .header-btn.active {
+    background: var(--lightning-highlight-bg);
+    border-color: var(--lightning-primary);
+}
+
+[data-theme="dark"] .header-btn:hover {
+}
+
+.header-btn svg,
+.button-icon {
+    width: 18px;
+    height: 18px;
+    fill: var(--text-secondary);
+    stroke: var(--text-secondary);
+    transition: all var(--transition-fast);
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+.header-btn:hover svg,
+.header-btn:hover .button-icon {
+    fill: var(--text-primary);
+    stroke: var(--text-primary);
+}
+
+.theme-icon {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+/* Fix theme icon visibility in header */
+.header-btn .theme-icon {
+    width: 18px;
+    height: 18px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+[data-theme="light"] .header-btn .theme-icon {
+    filter: brightness(0) saturate(100%) invert(0);
+}
+
+[data-theme="dark"] .header-btn .theme-icon {
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+.empty-state-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+    margin-bottom: 16px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+.stat-icon {
+    width: 12px;
+    height: 12px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+.light-theme .sun-icon {
+    display: none;
+}
+
+.dark-theme .moon-icon {
+    display: none;
+}
+
+
+
+/* Project Navigation Bar - Desktop Chrome Extension Sizing */
+.project-nav {
+    background: var(--bg-primary);
+    padding: 6px 12px; /* Reduced from 16px to 12px */
+    display: none;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    max-width: 400px; /* Ensure no overflow */
+    overflow: hidden;
+}
+
+.project-nav.show {
+    display: block;
+}
+
+.nav-content {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Reduced from 8px */
+    position: relative;
+    height: 37px;
+    max-width: 100%;
+}
+
+/* Navigation Back Button */
+.nav-back-btn {
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: auto;
+    height: 31px;
+    min-width: 31px;
+    box-sizing: border-box;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--lightning-text-secondary);
+}
+
+.nav-back-btn:hover {
+    background: var(--lightning-hover-bg);
+    color: var(--lightning-text-primary);
+    
+}
+
+.nav-back-btn svg,
+.nav-back-btn .button-icon {
+    width: 16px;
+    height: 16px;
+    fill: var(--text-secondary);
+    stroke: var(--text-secondary);
+    transition: all 150ms ease;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    margin: 0;
+}
+
+.nav-back-btn:hover svg,
+.nav-back-btn:hover .button-icon {
+    fill: var(--text-primary);
+    stroke: var(--text-primary);
+}
+
+/* Projects Container */
+.nav-projects-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    max-width: calc(100% - 40px); /* Reduced from 50px to account for smaller gaps */
+}
+
+.nav-projects {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 3px 2px; /* Reduced left padding from 5px to 2px */
+    gap: 7px;
+    scroll-behavior: smooth;
+    position: relative;
+    height: 37px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    scroll-padding: 16px;
+}
+
+/* Sliding highlight background */
+.nav-projects::before {
+    content: '';
+    position: absolute;
+    background: var(--lightning-highlight-bg);
+    border-radius: 10px;
+    height: 31px;
+    width: var(--slide-width, 0px);
+    top: 3px;
+    left: var(--slide-left, 2px); /* Adjusted to match reduced padding */
+    transition: var(--slide-transition, all 0.3s cubic-bezier(0.4, 0, 0.2, 1));
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateZ(0); /* Force hardware acceleration */
+}
+
+.nav-projects.has-active::before {
+    opacity: 1;
+}
+
+[data-theme="dark"] .nav-projects::before {
+    background: var(--lightning-highlight-bg);
+}
+
+.nav-projects::-webkit-scrollbar {
+    display: none;
+}
+
+/* Subtle Scroll Shadow Indicators */
+.nav-projects-wrapper::before,
+.nav-projects-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 16px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 250ms ease;
+}
+
+.nav-projects-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-primary) 50%, transparent);
+}
+
+.nav-projects-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-primary) 50%, transparent);
+}
+
+.nav-projects-wrapper.has-scroll-left::before {
+    opacity: 0.8;
+}
+
+.nav-projects-wrapper.has-scroll-right::after {
+    opacity: 0.8;
+}
+
+/* Clean Pill-Shaped Project Tabs - Updated to match navigation style */
+.nav-project {
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 7px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--lightning-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex-shrink: 0;
+    position: relative;
+    height: 31px;
+    user-select: none;
+    outline: none;
+    scroll-snap-align: start;
+    min-width: 50px;
+    max-width: none; /* Allow full project names */
+    overflow: visible;
+    z-index: 2; /* Ensure tabs are above sliding background */
+}
+
+/* Keyboard Focus Styles */
+.nav-project:focus-visible {
+    outline: 2px solid var(--lightning-primary);
+    outline-offset: 2px;
+    z-index: 10;
+}
+
+/* Project Icon */
+.nav-project-icon {
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.nav-project-icon-img {
+    width: 14px;
+    height: 14px;
+    transition: all 150ms ease;
+    opacity: 1;
+}
+
+.nav-project[style*="--project-hue"] .nav-project-icon-img {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(var(--project-hue, 0deg)) brightness(85%) contrast(110%);
+}
+
+[data-theme="dark"] .nav-project[style*="--project-hue"] .nav-project-icon-img {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(var(--project-hue, 0deg)) brightness(100%) contrast(110%);
+}
+
+.nav-project-name {
+    transition: all 150ms ease;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: none;
+    max-width: none; /* Allow full project names */
+}
+
+/* Hover States for Project Tabs */
+.nav-project:hover:not(.active) {
+    background: var(--lightning-hover-bg);
+    color: var(--lightning-text-primary);
+    
+}
+
+.nav-project:hover:not(.active) .nav-project-name {
+    color: var(--lightning-text-primary);
+}
+
+/* Active Project */
+.nav-project.active {
+    background: transparent; /* Remove instant background - use sliding background instead */
+    color: var(--lightning-text-primary);
+    font-weight: 600;
+    position: relative;
+    padding: 7px 10px;
+    height: 31px;
+    box-sizing: border-box;
+    z-index: 2; /* Ensure text is above sliding background */
+}
+
+[data-theme="dark"] .nav-project.active {
+    background: transparent; /* Remove instant background */
+}
+
+.nav-project.active .nav-project-name {
+    font-weight: 600;
+    color: var(--lightning-text-primary);
+}
+
+/* Refined Add Project Button */
+.nav-add-project {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    padding: 6px; /* Reduced padding */
+    cursor: pointer;
+    transition: all 150ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 27px;
+    height: 27px;
+}
+
+.nav-add-project:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border-hover);
+    transform: none;
+}
+
+.nav-add-project svg,
+.nav-add-project .button-icon {
+    width: 12px;
+    height: 12px;
+    fill: var(--text-secondary);
+    stroke: var(--text-secondary);
+    transition: all 150ms ease;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+.nav-add-project:hover svg,
+.nav-add-project:hover .button-icon {
+    fill: var(--text-primary);
+    stroke: var(--text-primary);
+}
+
+
+
+
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    padding: 16px;
+    min-height: 0;
+    position: relative;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Smooth View Transitions */
+.view {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+/* Ensure views can contain absolutely positioned elements */
+#project-view,
+#home-view {
+    position: relative;
+    min-height: 300px; /* Ensure enough height for button positioning */
+}
+
+.view.transitioning-out {
+    opacity: 0;
+    transform: translateX(-20px);
+    pointer-events: none;
+}
+
+.view.transitioning-in {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.view.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* Performance optimizations for smooth rendering */
+.container,
+.view,
+.project-nav,
+.nav-project {
+    will-change: auto;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+/* Batch DOM updates for better performance */
+body.view-switching .view {
+    transition-duration: 0.2s;
+}
+
+body.view-switching .project-nav {
+    transition-duration: 0.2s;
+}
+
+/* Adjust padding for project view */
+#project-view .main-content,
+#project-view {
+    padding-top: 12px; /* Increased for better spacing */
+}
+
+.view {
+    animation: fadeIn var(--transition-normal);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.header h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.header p {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-normal);
+}
+
+/* Page Header (Projects Screen) */
+/* Projects Header - Clean single-line design */
+.projects-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 4px;
+    gap: 16px;
+}
+
+.projects-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0;
+    line-height: var(--line-height-tight);
+}
+
+.header-add-btn {
+    background: var(--lightning-bg-tertiary);
+    border: 1.5px solid var(--lightning-border-primary);
+    border-radius: 12px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--lightning-text-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-add-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--lightning-primary);
+    opacity: 0.08;
+    transition: opacity 0.2s ease;
+    border-radius: 10px;
+}
+
+.header-add-btn:hover {
+    background: var(--lightning-highlight-bg);
+    color: var(--lightning-text-primary);
+    border-color: var(--lightning-border-secondary);
+}
+
+.header-add-btn:hover::before {
+    opacity: 0.12;
+}
+
+[data-theme="dark"] .header-add-btn {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .header-add-btn:hover {
+    background: var(--lightning-highlight-bg);
+    border-color: var(--lightning-border-secondary);
+}
+
+.header-add-btn .button-icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    transition: all var(--transition-fast);
+    z-index: 1;
+    position: relative;
+}
+
+.header-add-btn:hover .button-icon {
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+.header-add-btn span {
+    font-family: inherit;
+    z-index: 1;
+    position: relative;
+}
+
+/* Projects Grid */
+.projects-grid {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.project-card {
+    background: var(--lightning-card-bg);
+    border: 1.5px solid var(--lightning-card-border);
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+[data-theme="dark"] .project-card {
+}
+
+.project-card:hover {
+    background: var(--lightning-card-hover-bg);
+    border-color: var(--lightning-card-hover-border);
+}
+
+[data-theme="dark"] .project-card:hover {
+    /* Theme variables handle this automatically now */
+}
+
+.project-card:hover .project-card-title {
+    color: var(--text-primary);
+}
+
+.project-card:hover .project-card-stats {
+    color: var(--text-primary);
+}
+
+/* Remove the top-only gradient border for consistent highlighting */
+.project-card::before {
+    display: none;
+}
+
+/* Project icon styling - clean colored icons without containers */
+.project-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.project-icon-img {
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+    transition: all var(--transition-fast);
+}
+
+/* Default theme-based icons (fallback) */
+.project-icon:not([style*="--project-icon-color"]) .project-icon-img {
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+[data-theme="dark"] .project-icon:not([style*="--project-icon-color"]) .project-icon-img {
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+/* Custom colored project icons - apply colors directly to the icon */
+.project-icon[style*="--project-icon-color"] .project-icon-img {
+    transition: all var(--transition-fast);
+    /* Apply the project color directly to the icon */
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(var(--project-hue, 0deg)) brightness(95%) contrast(119%);
+}
+
+/* Light theme: Enhance icon colors for better visibility */
+[data-theme="light"] .project-icon[style*="--project-icon-color"] .project-icon-img {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(var(--project-hue, 0deg)) brightness(70%) contrast(120%);
+    opacity: 0.8;
+}
+
+/* Dark theme: Brighter icons for dark backgrounds */
+[data-theme="dark"] .project-icon[style*="--project-icon-color"] .project-icon-img {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(var(--project-hue, 0deg)) brightness(110%) contrast(110%);
+    opacity: 0.9;
+}
+
+/* Project content area */
+.project-content {
+    flex: 1;
+    min-width: 0; /* Allow content to shrink */
+}
+
+.project-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.project-card-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    transition: color var(--transition-fast);
+}
+
+.project-card-actions {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.project-card:hover .project-card-actions {
+    opacity: 1;
+}
+
+.project-card-action {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.project-card-action:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    
+}
+
+.project-card-action svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary);
+}
+
+.project-card-action:hover svg {
+    color: var(--text-primary);
+}
+
+/* Light red background for delete actions */
+.project-card-action.delete-project {
+    background: var(--lightning-light-red);
+    border-color: var(--lightning-light-red-border);
+}
+
+.project-card-action.delete-project:hover {
+    background: var(--lightning-light-red-hover);
+    border-color: var(--lightning-danger);
+}
+
+.project-card-action.delete-project svg {
+    color: var(--lightning-light-red-text);
+}
+
+.project-card-action.delete-project:hover svg {
+    color: var(--lightning-danger);
+}
+
+/* Light blue background for edit actions */
+.project-card-action.edit-project {
+    background: var(--lightning-light-blue);
+    border-color: var(--lightning-light-blue-border);
+}
+
+.project-card-action.edit-project:hover {
+    background: var(--lightning-light-blue-hover);
+    border-color: var(--lightning-light-blue-text);
+}
+
+.project-card-action.edit-project svg {
+    color: var(--lightning-light-blue-text);
+}
+
+.project-card-action.edit-project:hover svg {
+    color: var(--lightning-light-blue-text);
+}
+
+.project-card-description {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.project-card-stats {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.project-card-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.project-card-stat svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Add Project Button - Elegant minimalist design */
+.add-project-btn {
+    position: absolute;
+    bottom: 28px; /* Consistent with snippet button */
+    right: 28px;  /* Consistent with snippet button */
+    width: 44px;  /* Consistent with snippet button */
+    height: 44px; /* Consistent with snippet button */
+    border-radius: 50%;
+    border: 2px solid var(--lightning-border-primary);
+    background: var(--lightning-bg-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transform: none;
+    backdrop-filter: blur(10px);
+}
+
+/* Show button only on home view */
+.add-project-btn.show {
+    display: flex;
+}
+
+.add-project-btn:hover {
+    transform: none;
+    border-color: var(--lightning-text-primary);
+    background: var(--lightning-hover-bg);
+}
+
+.add-project-btn svg,
+.add-project-btn .button-icon {
+    width: 20px;  /* Consistent with snippet button */
+    height: 20px; /* Consistent with snippet button */
+    stroke-width: 2;
+    fill: none;
+    stroke: var(--lightning-text-primary);
+    transition: all var(--transition-fast);
+}
+
+.add-project-btn:hover svg,
+.add-project-btn:hover .button-icon {
+    stroke: var(--lightning-text-primary);
+}
+
+/* Project View - Clean and minimal */
+
+/* Snippets */
+.snippets-container {
+    display: grid;
+    gap: 16px; /* Consistent 16px vertical spacing between all snippet cards */
+    margin-bottom: 10px;
+}
+
+/* Ensure no margin exceptions on snippet cards */
+.snippet-card {
+    margin: 0; /* Remove any potential margin inconsistencies */
+}
+
+.snippet-card:first-child {
+    margin-top: 0; /* Ensure first card has no top margin */
+}
+
+.snippet-card:last-child {
+    margin-bottom: 0; /* Ensure last card has no bottom margin */
+}
+
+.snippet-card {
+    background: var(--lightning-card-bg);
+    border: 1.5px solid var(--lightning-card-border);
+    border-radius: 10px;
+    padding: 12px; /* Reduced padding for more compact, minimalist appearance */
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    min-height: 52px; /* Reduced min height for more compact look */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+[data-theme="dark"] .snippet-card {
+}
+
+.snippet-card:hover {
+    background: var(--lightning-card-hover-bg);
+    border-color: var(--lightning-card-hover-border);
+}
+
+[data-theme="dark"] .snippet-card:hover {
+}
+
+.snippet-card-content {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium); /* Medium weight for better readability */
+    color: var(--text-primary);
+    transition: color var(--transition-fast);
+    line-height: 1.4; /* Adjusted line height for more compact look */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: flex; /* Use flexbox for perfect vertical centering */
+    align-items: center; /* Vertically center text baseline */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Single line for more compact appearance */
+    padding: 0; /* Remove padding for cleaner look */
+    margin-right: 60px; /* Ensure text doesn't overlap with copy counter */
+}
+
+.snippet-card:hover .snippet-card-content {
+    color: var(--text-primary);
+}
+
+.snippet-card-actions {
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    position: absolute;
+    top: 50%; /* Center vertically */
+    right: 12px;
+    transform: translateY(-50%); /* Perfect vertical centering */
+    z-index: 10;
+}
+
+.snippet-card:hover .snippet-card-actions {
+    opacity: 1;
+}
+
+.snippet-card-action {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; /* Fixed width for consistent sizing */
+    height: 28px; /* Fixed height for consistent sizing */
+}
+
+.snippet-card-action:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    
+}
+
+.snippet-card-action svg,
+.snippet-card-action .button-icon {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    transition: all var(--transition-fast);
+}
+
+.snippet-card-action:hover svg,
+.snippet-card-action:hover .button-icon {
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+/* Light red background for delete actions */
+.snippet-card-action.delete-snippet {
+    background: var(--lightning-light-red);
+    border-color: var(--lightning-light-red-border);
+}
+
+.snippet-card-action.delete-snippet:hover {
+    background: var(--lightning-light-red-hover);
+    border-color: var(--lightning-danger);
+}
+
+.snippet-card-action.delete-snippet svg,
+.snippet-card-action.delete-snippet .button-icon {
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+.snippet-card-action.delete-snippet:hover svg,
+.snippet-card-action.delete-snippet:hover .button-icon {
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+/* Light blue background for edit actions */
+.snippet-card-action.edit-snippet {
+    background: var(--lightning-light-blue);
+    border-color: var(--lightning-light-blue-border);
+}
+
+.snippet-card-action.edit-snippet:hover {
+    background: var(--lightning-light-blue-hover);
+    border-color: var(--lightning-light-blue-text);
+}
+
+.snippet-card-action.edit-snippet svg,
+.snippet-card-action.edit-snippet .button-icon {
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+.snippet-card-action.edit-snippet:hover svg,
+.snippet-card-action.edit-snippet:hover .button-icon {
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+/* Copy count display - subtle and non-intrusive */
+.snippet-copy-count-wrapper {
+    position: absolute;
+    top: 50%; /* Center vertically relative to card */
+    right: 16px; /* Better horizontal positioning */
+    transform: translateY(-50%); /* Perfect vertical centering with text baseline */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 6px 10px; /* More generous padding for better appearance */
+    font-size: 12px;   /* Match snippet text scale for visual balance */
+    font-weight: 600;  /* Strong weight for visibility */
+    color: var(--text-secondary);
+    opacity: 0.85; /* More visible */
+    transition: all var(--transition-fast);
+    pointer-events: none; /* Don't interfere with card clicks */
+    z-index: 1;
+    min-width: 32px; /* Slightly larger minimum width for better proportion */
+    text-align: center;
+    line-height: 1; /* Match snippet text line-height for perfect alignment */
+}
+
+.snippet-card:hover .snippet-copy-count-wrapper {
+    opacity: 1;
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+}
+
+.snippet-copy-count {
+    line-height: 1;
+    min-width: 8px;
+    text-align: center;
+}
+
+/* Color cues for copy counter based on activity */
+.snippet-copy-count-wrapper[data-count="0"] {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.snippet-copy-count-wrapper:not([data-count="0"]) {
+    background: var(--lightning-success-green-bg); /* Light green background for active snippets */
+    border-color: var(--lightning-success-green-border);
+    color: var(--lightning-success);
+    opacity: 0.9;
+}
+
+[data-theme="dark"] .snippet-copy-count-wrapper:not([data-count="0"]) {
+    background: var(--lightning-success-green-bg);
+    border-color: var(--lightning-success-green-border);
+    color: var(--lightning-success);
+}
+
+/* Animation for count updates */
+.snippet-copy-count.count-updated {
+    animation: countPulse 0.3s ease-out;
+}
+
+@keyframes countPulse {
+    0% {
+        transform: none;
+        background: var(--lightning-success);
+        color: white;
+    }
+    50% {
+        transform: none;
+        background: var(--lightning-success);
+        color: white;
+    }
+    100% {
+        transform: none;
+        background: transparent;
+        color: var(--text-secondary);
+    }
+}
+
+/* Reduce count wrapper visibility when snippet actions are visible to avoid overlap */
+.snippet-card:hover .snippet-copy-count-wrapper {
+    opacity: 0.7; /* Keep more visible than before */
+    transform: translateY(-50%); /* Keep centered positioning only */
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .snippet-copy-count-wrapper {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .snippet-card:hover .snippet-copy-count-wrapper {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+}
+
+/* Context menu for snippet copy count reset */
+.snippet-context-menu {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    
+    min-width: 180px;
+    padding: 4px 0;
+    z-index: 10000;
+    animation: contextMenuFadeIn 0.15s ease-out;
+}
+
+[data-theme="dark"] .snippet-context-menu {
+    
+}
+
+.context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 13px;
+    color: var(--text-primary);
+    user-select: none;
+}
+
+.context-menu-item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.context-menu-icon {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    opacity: 0.7;
+}
+
+.context-menu-item:hover .context-menu-icon {
+    opacity: 1;
+}
+
+@keyframes contextMenuFadeIn {
+    from {
+        opacity: 0;
+        transform: none;
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+/* Legacy Add Snippet Button - Removed to prevent conflicts */
+/* Old positioning styles removed - using add-snippet-btn-floating class instead */
+
+/* Floating Add Snippet Button - COMPLETELY INDEPENDENT OVERLAY */
+.add-snippet-btn-floating {
+    position: fixed !important; /* Force fixed positioning */
+    bottom: 24px !important; /* Force bottom positioning relative to viewport */
+    right: 24px !important;  /* Force right positioning relative to viewport */
+    width: 48px; /* Increased by 10% from 44px */
+    height: 48px; /* Increased by 10% from 44px */
+    border-radius: 50%;
+    border: 2px solid var(--lightning-border-primary);
+    background: var(--lightning-bg-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: none; /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    z-index: 9999 !important; /* MAXIMUM z-index to float above everything */
+    backdrop-filter: blur(10px);
+    transform: none !important; /* Prevent any transforms */
+    margin: 0 !important; /* Reset any margins */
+    padding: 0; /* Reset padding, use internal centering */
+}
+
+/* Show floating button when project view is active */
+body.project-view-active .add-snippet-btn-floating {
+    display: flex;
+}
+
+/* Ensure button is hidden when project view is not active */
+body:not(.project-view-active) .add-snippet-btn-floating {
+    display: none !important;
+}
+
+.add-snippet-btn-floating:hover {
+    transform: none;
+    background: var(--lightning-hover-bg);
+}
+
+.add-snippet-btn-floating svg,
+.add-snippet-btn-floating .button-icon {
+    width: 22px;  /* Increased proportionally with button size (10% bigger) */
+    height: 22px; /* Increased proportionally with button size (10% bigger) */
+    stroke-width: 2;
+    fill: none;
+    stroke: var(--lightning-text-primary);
+    transition: all var(--transition-fast);
+}
+
+/* Ensure proper icon visibility in both themes */
+[data-theme="light"] .add-snippet-btn-floating svg,
+[data-theme="light"] .add-snippet-btn-floating .button-icon {
+    stroke: var(--text-primary);
+}
+
+[data-theme="dark"] .add-snippet-btn-floating svg,
+[data-theme="dark"] .add-snippet-btn-floating .button-icon {
+    stroke: var(--text-primary);
+}
+
+/* Modals */
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--lightning-shadow-color-lg);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* Background blur removed as requested */
+}
+
+.modal.show {
+    display: flex;
+    animation: modalFadeIn var(--transition-normal);
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: var(--lightning-bg-primary);
+    border: 1.5px solid var(--lightning-border-primary);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 350px;
+    
+    animation: modalSlideIn var(--transition-normal);
+}
+
+/* Snippet Modal Specific Styling - Reduced Height */
+#snippet-modal .modal-content {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 350px;
+    
+    animation: modalSlideIn var(--transition-normal);
+    /* Reduce overall modal height by 30% */
+    max-height: 70vh;
+    min-height: auto;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: none;
+        opacity: 0;
+    }
+    to {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1.5px solid var(--lightning-border-primary);
+}
+
+.modal-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.modal-close:hover {
+    background: var(--bg-hover);
+}
+
+.modal-close svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--text-secondary);
+    stroke: var(--text-secondary);
+}
+
+.modal-close:hover svg {
+    fill: var(--text-primary);
+    stroke: var(--text-primary);
+}
+
+.modal-body {
+    padding: 16px;
+}
+
+.modal-body input {
+    width: 100%;
+    background: var(--lightning-input-bg);
+    border: 1.5px solid var(--lightning-input-border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: var(--font-size-base);
+    color: var(--lightning-input-text);
+    transition: all var(--transition-fast);
+    font-family: inherit;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.modal-body input:last-child {
+    margin-bottom: 0;
+}
+
+.modal-body input:focus {
+    outline: none;
+    border-color: var(--lightning-input-focus-border);
+    box-shadow: var(--lightning-input-focus-shadow);
+}
+
+.modal-footer {
+    display: flex;
+    flex-direction: row; /* Ensure buttons are in a single row */
+    gap: 8px;
+    padding: 16px;
+    border-top: 1.5px solid var(--lightning-border-primary);
+    justify-content: flex-end;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 8px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    border: 1.5px solid;
+}
+
+/* Snippet Modal Specific Styling - Reduced Height by 30% */
+#snippet-modal .modal-header {
+    padding: 10px 16px;
+}
+
+#snippet-modal .modal-header h3 {
+    font-size: var(--font-size-md);
+    margin: 0;
+}
+
+#snippet-modal .modal-body {
+    padding: 10px 16px;
+}
+
+#snippet-modal .modal-body input {
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+#snippet-modal .modal-body input:focus {
+    
+}
+
+#snippet-modal .modal-footer {
+    gap: 6px;
+    padding: 10px 16px;
+}
+
+#snippet-modal .btn-primary,
+#snippet-modal .btn-secondary {
+    padding: 6px 14px;
+    font-size: var(--font-size-sm);
+}
+
+.btn-primary {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+    background: var(--text-secondary);
+    border-color: var(--text-secondary);
+    
+}
+
+.btn-primary svg,
+.btn-primary img {
+    filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .btn-primary {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background: var(--text-secondary);
+    border-color: var(--text-secondary);
+}
+
+[data-theme="dark"] .btn-primary svg,
+[data-theme="dark"] .btn-primary img {
+    filter: brightness(0) invert(0);
+}
+
+.btn-secondary {
+    background: var(--lightning-bg-secondary);
+    border-color: var(--lightning-border-primary);
+    color: var(--lightning-text-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--lightning-highlight-bg);
+    border-color: var(--lightning-highlight-bg);
+    color: var(--lightning-text-primary);
+    
+}
+
+.btn-secondary svg,
+.btn-secondary img {
+    fill: var(--text-primary);
+    stroke: var(--text-primary);
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+[data-theme="dark"] .btn-secondary {
+    background: var(--lightning-bg-secondary);
+    border-color: var(--lightning-border-primary);
+    color: var(--lightning-text-primary);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+    background: var(--lightning-highlight-bg);
+    border-color: var(--lightning-highlight-bg);
+    color: var(--lightning-text-primary);
+    
+}
+
+[data-theme="dark"] .btn-secondary svg,
+[data-theme="dark"] .btn-secondary img {
+    fill: var(--text-primary);
+    stroke: var(--text-primary);
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+/* Danger Button for Confirmation Modal */
+.btn-danger {
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    border: 1px solid;
+    background: var(--lightning-danger);
+    border-color: var(--lightning-danger);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: var(--lightning-light-red-hover);
+    border-color: var(--lightning-light-red-hover);
+    
+}
+
+[data-theme="dark"] .btn-danger {
+    background: var(--lightning-danger);
+    border-color: var(--lightning-danger);
+    color: white;
+}
+
+[data-theme="dark"] .btn-danger:hover {
+    background: var(--lightning-light-red-hover);
+    border-color: var(--lightning-light-red-hover);
+}
+
+/* Confirmation Modal Specific Styling */
+.confirm-modal-content {
+    max-width: 400px;
+}
+
+#confirm-modal .modal-body {
+    padding: 20px 16px;
+}
+
+#confirm-modal .modal-body p {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    text-align: center;
+}
+
+#snippet-modal .btn-danger {
+    padding: 6px 14px;
+    font-size: var(--font-size-sm);
+}
+
+/* Removed old animation bloat */
+
+/* Modern copy success notification with green accent */
+.copy-success {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--lightning-card-bg);
+    border: 1px solid var(--lightning-success);
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    z-index: 1001;
+
+}
+
+.copy-success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--lightning-success), var(--lightning-success-light));
+    border-radius: 8px 8px 0 0;
+}
+
+.copy-success.show {
+    display: flex;
+    animation: simpleCopySuccessShow 0.3s ease-out;
+}
+
+@keyframes simpleCopySuccessShow {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.copy-success span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--lightning-text-primary);
+}
+
+/* Spinner Animation (from ClicktoCopyAnimation) - Faster */
+.spinner {
+    color: var(--success-color);
+    overflow: visible;
+    width: 24px;
+    height: 24px;
+    transition: color var(--transition-normal);
+}
+
+.spinner circle,
+.spinner g,
+.spinner path {
+    animation-duration: 0.8s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.spinner__check,
+.spinner__pop-start,
+.spinner__worm {
+    transform-origin: 24px 24px;
+}
+
+.spinner__check {
+    animation-name: check;
+}
+
+.spinner__pop-dot {
+    animation-name: pop-dot;
+}
+
+.spinner__pop-dot-group {
+    animation-name: pop-dot-group1;
+}
+
+.spinner__pop-dot-group + .spinner__pop-dot-group {
+    animation-name: pop-dot-group2;
+}
+
+.spinner__pop-end {
+    animation-name: pop-end;
+}
+
+.spinner__pop-start {
+    animation-name: pop-start;
+}
+
+.spinner__worm {
+    animation-name: worm;
+}
+
+/* Simplified Spinner Animation */
+@keyframes check {
+    from { stroke-dashoffset: -36.7; transform: none; }
+    to { stroke-dashoffset: 13.7; transform: none; }
+}
+
+@keyframes pop-dot {
+    from { transform: translate(0, 6px); }
+    to { transform: translate(0, 0); }
+}
+
+@keyframes simple-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Use simple-fade for all pop groups instead of complex timing */
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.empty-state p {
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+/* Empty State Creator Card - COMPLETELY INDEPENDENT OVERLAY (like add-snippet button) */
+.empty-state-creator-card {
+    position: fixed !important; /* Force fixed positioning relative to viewport */
+    bottom: 24px !important; /* Force bottom positioning relative to viewport */
+    left: 50% !important; /* Center horizontally relative to viewport */
+    transform: translateX(-50%) translateY(100%) !important; /* Center and slide from bottom */
+    width: calc(100% - 48px) !important; /* Account for margins */
+    max-width: 368px !important; /* 400px - 32px content padding = 368px */
+    z-index: 9999 !important; /* MAXIMUM z-index to float above everything */
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0 !important; /* Reset any margins */
+    display: none; /* Hidden by default */
+}
+
+/* Creator card visible state - slide up animation */
+.empty-state-creator-card.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) !important; /* Center horizontally, slide up vertically */
+}
+
+/* Manual dismiss animation - slide down quickly */
+.empty-state-creator-card.dismissing {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100%) !important; /* Center horizontally, slide down */
+    transition: all 0.3s cubic-bezier(0.6, 0, 1, 1);
+}
+
+/* Auto-dismiss animation - gentle fade out */
+.empty-state-creator-card.auto-dismissing {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px) !important; /* Center horizontally, slight down movement */
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dismiss button - positioned outside profile card content */
+.creator-card-dismiss {
+    position: absolute;
+    top: -8px; /* Position above the profile card */
+    right: -8px; /* Position outside the profile card */
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001; /* Higher than wrapper */
+    /* No shadows - solid UI theme */
+}
+
+/* Subtle red styling for both themes - not attention-grabbing */
+.creator-card-dismiss:hover {
+    background: rgba(220, 53, 69, 0.1); /* Very subtle red background */
+    border-color: rgba(220, 53, 69, 0.3); /* Moderate red border */
+    transform: none; /* No scaling - solid UI */
+}
+
+/* Dark theme red styling */
+[data-theme="dark"] .creator-card-dismiss:hover {
+    background: rgba(239, 68, 68, 0.15); /* Slightly different red for dark theme */
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Light theme red styling */
+[data-theme="light"] .creator-card-dismiss:hover {
+    background: rgba(220, 53, 69, 0.08); /* More subtle for light theme */
+    border-color: rgba(220, 53, 69, 0.25);
+}
+
+.dismiss-icon {
+    width: 12px;
+    height: 12px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    opacity: 0.7;
+    transition: all 0.2s ease;
+}
+
+/* Red icon color on hover - subtle and theme-appropriate */
+.creator-card-dismiss:hover .dismiss-icon {
+    opacity: 1;
+    filter: brightness(0) saturate(100%) invert(16%) sepia(99%) saturate(7404%) hue-rotate(359deg) brightness(95%) contrast(118%);
+}
+
+/* Darker red for dark theme */
+[data-theme="dark"] .creator-card-dismiss:hover .dismiss-icon {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(7480%) hue-rotate(2deg) brightness(118%) contrast(119%);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 400px) {
+    .empty-state-creator-card {
+        width: calc(100% - 32px) !important; /* Smaller margins on mobile */
+        bottom: 16px !important;
+        max-width: none !important;
+    }
+}
+
+/* Settings View */
+.settings-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    max-width: 100%; /* Prevent overflow */
+}
+
+.settings-header h2 {
+    font-size: 18px; /* Reduced from 20px */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Settings Title Group with Version Badge */
+.settings-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.version-badge {
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 9px; /* Reduced by 20% from 11px */
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .version-badge {
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 100%; /* Prevent overflow */
+    overflow: visible;
+    position: relative;
+    z-index: 10;
+}
+
+/* Preferences Section */
+.preferences-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px; /* Consistent with other sections */
+    
+    max-width: 100%; /* Prevent overflow */
+    overflow: visible; /* Allow tooltip to be visible outside section */
+    transition: all 0.3s ease;
+    position: relative; /* Ensure proper stacking context */
+}
+
+.preferences-section:hover {
+    border-color: var(--lightning-primary);
+    
+    
+}
+
+[data-theme="dark"] .preferences-section {
+    
+}
+
+.preferences-section .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px; /* Consistent with other section headings */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative; /* For absolute positioning of info popup */
+}
+
+/* Preferences Info Icon and Popup - Enhanced Version */
+.preferences-info-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px; /* Increased gap from "Preferences" text */
+}
+
+.preferences-info-icon {
+    width: 20px; /* Same size as settings icon for consistency */
+    height: 20px;
+    opacity: 1; /* Fully visible by default */
+    cursor: help;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
+    border-radius: 50%;
+    padding: 3px; /* Better hover target */
+    background: transparent;
+    position: relative;
+}
+
+/* Enhanced hover effect with gentle scaling and background */
+.preferences-info-icon:hover {
+    opacity: 1;
+    transform: scale(1.15); /* Slightly more pronounced scaling */
+    background: rgba(var(--lightning-primary-rgb, 59, 130, 246), 0.1);
+    box-shadow: 0 2px 8px rgba(var(--lightning-primary-rgb, 59, 130, 246), 0.2);
+}
+
+/* Theme-specific icon styling - simplified for maximum visibility */
+[data-theme="light"] .preferences-info-icon {
+    filter: brightness(0) saturate(100%) invert(0.5);
+}
+
+[data-theme="dark"] .preferences-info-icon {
+    filter: brightness(0) saturate(100%) invert(0.8);
+}
+
+[data-theme="light"] .preferences-info-icon:hover {
+    filter: brightness(0) saturate(100%) invert(0.2);
+}
+
+[data-theme="dark"] .preferences-info-icon:hover {
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+/* Enhanced Info Popup - Using absolute positioning for better Chrome extension compatibility */
+.preferences-info-popup {
+    position: absolute;
+    top: calc(-100% - 180px); /* Position above the wrapper */
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 320px; /* Increased width as requested */
+    min-width: 300px;
+    z-index: 999999; /* Very high z-index to appear above everything */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    
+    /* Enhanced styling using theme variables */
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--lightning-shadow-lg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Popup styling now uses CSS variables for automatic theme adaptation */
+
+/* Enhanced hover behavior - CSS based for reliability */
+.preferences-info-wrapper:hover .preferences-info-popup {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Enhanced popup content with better spacing */
+.info-popup-content {
+    padding: 16px; /* More generous padding */
+}
+
+.info-popup-title {
+    font-size: 14px; /* Slightly larger title */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 12px 0; /* More space after title */
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-popup-section {
+    margin-bottom: 12px; /* Increased spacing between sections */
+    padding: 0;
+}
+
+.info-popup-section:last-child {
+    margin-bottom: 0;
+}
+
+/* Enhanced preference item layout */
+.preference-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px; /* Slightly more space between icon and text */
+    margin-bottom: 0;
+}
+
+.preference-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px; /* Align with text baseline */
+    opacity: 0.7;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    transition: opacity 0.2s ease;
+}
+
+/* Theme-specific icon styling */
+[data-theme="light"] .preference-icon {
+    filter: brightness(0) saturate(100%) invert(0.3);
+}
+
+[data-theme="dark"] .preference-icon {
+    filter: brightness(0) saturate(100%) invert(0.8);
+}
+
+.preference-text {
+    line-height: 1.5; /* Better line spacing */
+    font-size: 12px; /* Slightly larger text */
+    color: var(--text-secondary);
+    font-weight: normal; /* Ensure description text is not bold */
+}
+
+.preference-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    display: inline;
+    margin-right: 4px;
+}
+
+/* Enhanced popup arrow pointing downward */
+.preferences-info-popup::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid var(--border-color);
+}
+
+.preferences-info-popup::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid var(--bg-primary);
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .preferences-info-icon,
+    .preferences-info-popup {
+        transition: opacity 0.2s ease;
+    }
+    
+    .preferences-info-icon:hover {
+        transform: none;
+    }
+}
+
+/* 3x3 Settings Matrix UI */
+.settings-matrix {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Consistent 8px spacing between all rows */
+}
+
+/* Matrix Pills - Horizontal Containers - Chrome Extension Optimized */
+.matrix-pill {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr; /* Equal columns: ACTION | PROJECTS | SNIPPETS */
+    align-items: center;
+    align-content: center;
+    gap: 0; /* Remove gap to ensure proper column alignment */
+    padding: 0 8px; /* Reduced padding from 12px to 8px for larger text */
+    border-radius: 12px;
+    transition: all 150ms ease;
+    position: relative;
+    min-width: 0; /* Prevent overflow */
+    max-width: 100%; /* Ensure no overflow */
+    overflow: visible; /* Allow text to be visible */
+    height: 48px; /* Uniform height for all pills */
+    box-sizing: border-box;
+}
+
+/* Remove all hover animations on matrix pills */
+
+/* Pill 1: Label Row */
+.label-pill {
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    margin-bottom: 0; /* Remove margin for consistent spacing */
+    border-radius: 12px; /* Ensure consistent border radius */
+    padding: 0 12px; /* Match other pills padding */
+}
+
+[data-theme="dark"] .label-pill {
+    background: var(--bg-tertiary);
+}
+
+/* Pill 2: Default Screen */
+.default-screen-pill {
+    border: 1px solid var(--lightning-border-primary);
+    background: var(--lightning-bg-tertiary);
+    border-radius: 12px; /* Ensure consistent border radius */
+}
+
+/* Pill 3: Delete Warning */
+.delete-warning-pill {
+    border: 1px solid var(--lightning-border-primary);
+    background: var(--lightning-bg-tertiary);
+    border-radius: 12px; /* Ensure consistent border radius */
+}
+
+/* Pill 4: Remember Last Selection */
+.remember-section-pill {
+    border: 1px solid var(--lightning-border-primary);
+    background: var(--lightning-bg-tertiary);
+    border-radius: 12px; /* Ensure consistent border radius */
+}
+
+/* Dark Theme Pills - Use same neutral styling */
+[data-theme="dark"] .default-screen-pill,
+[data-theme="dark"] .delete-warning-pill,
+[data-theme="dark"] .remember-section-pill {
+    border-color: var(--lightning-border-primary);
+    background: var(--lightning-bg-tertiary);
+}
+
+/* Dark theme hover effects removed */
+
+/* Pill Columns */
+.pill-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0; /* Prevent overflow */
+    position: relative;
+    height: 100%; /* Full height for perfect vertical alignment */
+    padding: 0 6px; /* Consistent internal padding for all columns */
+    box-sizing: border-box;
+}
+
+.label-column {
+    justify-content: flex-start; /* Left-aligned text labels */
+    text-align: left;
+    padding-left: 0; /* No left padding for labels */
+}
+
+.header-column {
+    justify-content: center; /* Perfect center alignment for headers */
+    text-align: center;
+}
+
+.control-column {
+    justify-content: center; /* Perfect center alignment for controls */
+    display: flex;
+    align-items: center;
+}
+
+/* Vertical Separators between columns */
+.matrix-pill .pill-column:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; /* Position at the edge of each column */
+    top: 20%;
+    height: 60%; /* Consistent separator height */
+    width: 1px;
+    background-color: var(--border-color);
+    opacity: 0.3; /* Subtle separator */
+}
+
+/* Darker separator for dark theme */
+[data-theme="dark"] .matrix-pill .pill-column:not(:last-child)::after {
+    background-color: var(--border-color);
+    opacity: 0.8;
+}
+
+/* Remove redundant styling - now handled above */
+
+/* Pill Text Styling */
+.pill-text {
+    font-family: var(--font-primary);
+    line-height: 1.2;
+}
+
+/* Label Text (Action) */
+.label-text {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Header Text (Projects, Snippets) - Pills only */
+.header-column .header-text {
+    font-size: 12px; /* Increased from 10px to 12px for better readability */
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    text-align: center;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Main Header Text (restore original) */
+.header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Setting Label Text */
+.setting-label {
+    font-size: 12px; /* Increased from 11px to 13px for better readability */
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left; /* Ensure consistent left alignment */
+    width: 100%; /* Take full width of label column */
+}
+
+/* Control Wrappers */
+.control-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0; /* Remove padding for precise alignment */
+    border-radius: 6px;
+    transition: all 150ms ease;
+    position: relative;
+    width: 32px; /* Reduced size for modern, compact design */
+    height: 32px; /* Reduced size for modern, compact design */
+    user-select: none;
+    margin: 0 auto; /* Center in column */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.control-wrapper:hover {
+    background: var(--bg-hover);
+}
+
+[data-theme="dark"] .control-wrapper:hover {
+    background: var(--bg-hover);
+}
+
+/* This styling is now handled below with improved disabled state */
+
+/* Control wrapper hover states */
+.control-wrapper:hover {
+    background: var(--bg-hover);
+}
+
+/* Hidden Form Inputs */
+.control-wrapper input[type="radio"],
+.control-wrapper input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+/* Radio Button Styling - shadCN inspired */
+.radio-button {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    background: var(--bg-primary);
+    transition: all 150ms ease;
+    position: relative;
+    margin: 0;
+}
+
+.control-wrapper.selected .radio-button {
+    border-color: var(--text-primary);
+    background: var(--text-primary);
+}
+
+.control-wrapper:hover:not(.selected) .radio-button {
+    border-color: var(--text-secondary);
+}
+
+/* Default Screen Pill - Light Blue Radio Buttons */
+.default-screen-pill .control-wrapper.selected .radio-button {
+    border-color: #3b82f6;
+    background: #3b82f6;
+}
+
+.default-screen-pill .control-wrapper:hover:not(.selected) .radio-button {
+    border-color: #93c5fd;
+}
+
+/* Radio Button Center Dot */
+.control-wrapper.selected .radio-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+}
+
+/* Checkbox Button Styling - shadCN inspired */
+.checkbox-button {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    background: var(--bg-primary);
+    transition: all 150ms ease;
+    position: relative;
+    margin: 0;
+}
+
+.control-wrapper:hover:not(.selected) .checkbox-button {
+    border-color: var(--text-secondary);
+}
+
+.control-wrapper.selected .checkbox-button {
+    border-color: var(--text-primary);
+    background: var(--text-primary);
+}
+
+/* Delete Warning Pill - Light Orange Checkboxes */
+.delete-warning-pill .control-wrapper.selected .checkbox-button {
+    border-color: #f97316;
+    background: #f97316;
+}
+
+.delete-warning-pill .control-wrapper:hover:not(.selected) .checkbox-button {
+    border-color: #fed7aa;
+}
+
+/* Remember Last Selection Pill - Light Green Checkboxes */
+.remember-section-pill .control-wrapper.selected .checkbox-button {
+    border-color: #22c55e;
+    background: #22c55e;
+}
+
+.remember-section-pill .control-wrapper:hover:not(.selected) .checkbox-button {
+    border-color: #86efac;
+}
+
+/* Checkbox Checkmark - shadCN style */
+.control-wrapper.selected .checkbox-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 6px;
+    border: solid var(--bg-primary);
+    border-width: 0 1.5px 1.5px 0;
+    transform: translate(-50%, -60%) rotate(45deg);
+    opacity: 1;
+}
+
+/* Disabled Checkbox Button */
+.checkbox-button.disabled {
+    opacity: 0.5;
+    border-color: var(--border-color);
+    background: var(--bg-secondary);
+    cursor: not-allowed;
+}
+
+/* Disabled Control Wrapper styling improvements */
+.control-wrapper.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.control-wrapper.disabled .checkbox-button,
+.control-wrapper.disabled .radio-button {
+    opacity: 0.6;
+    border-color: var(--border-color);
+    background: var(--bg-secondary);
+}
+
+
+
+/* Settings Feedback - Positioned at top right */
+.settings-feedback {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.9);
+    color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    max-width: calc(100vw - 32px); /* Responsive to viewport width with 16px margin on each side */
+    width: auto;
+    min-width: 150px; /* Minimum width for consistency */
+    word-wrap: break-word;
+    white-space: nowrap; /* Keep text on one line when possible */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-sizing: border-box;
+}
+
+/* Ensure toast doesn't exceed popup width in Chrome extension context */
+@media (max-width: 450px) {
+    .settings-feedback {
+        max-width: calc(100vw - 40px); /* More conservative margin for small screens */
+        right: 12px;
+        top: 12px;
+    }
+}
+
+.settings-feedback.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+[data-theme="dark"] .settings-feedback {
+    background: rgba(255, 255, 255, 0.95);
+    color: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.radio-indicator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    transition: transform 150ms ease;
+}
+
+/* Old CSS removed - replaced with new 3x3 matrix styling */
+
+
+
+
+
+
+
+.setting-section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.setting-section:hover {
+    border-color: var(--lightning-primary);
+    
+    
+}
+
+.setting-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-icon {
+    width: 14px !important;
+    height: 14px !important;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+}
+
+/* SVG icons that already use currentColor don't need the filter */
+.settings-icon.svg-current-color {
+    filter: none !important;
+    color: var(--lightning-text-primary) !important;
+}
+
+/* Ensure theme-adaptive icons work properly in all contexts */
+[data-theme="light"] .settings-icon.svg-current-color {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .settings-icon.svg-current-color {
+    color: var(--text-primary) !important;
+}
+
+/* ==== CREATOR SPOTLIGHT SECTION ==== */
+.creator-spotlight {
+    background: var(--bg-secondary);
+    border: 2px solid var(--lightning-primary);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+}
+
+.creator-spotlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--lightning-primary);
+    opacity: 0.02;
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.creator-hero {
+    position: relative;
+    z-index: 1;
+}
+
+.creator-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.creator-lightning {
+    width: 16px;
+    height: 16px;
+    filter: none;
+    color: var(--lightning-primary);
+}
+
+/* Ensure creator lightning icon is theme-adaptive */
+[data-theme="light"] .creator-lightning {
+    color: var(--lightning-primary);
+}
+
+[data-theme="dark"] .creator-lightning {
+    color: var(--lightning-primary);
+}
+
+.creator-label {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--lightning-success);
+    color: var(--lightning-success);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.creator-name h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--lightning-primary);
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.creator-title {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0 0 12px 0;
+    font-weight: 500;
+}
+
+.creator-quote {
+    margin: 12px 0;
+    padding: 10px 14px;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    border-left: 3px solid var(--lightning-success);
+}
+
+.creator-quote p {
+    color: var(--text-primary);
+    font-size: 13px;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.creator-social-inline {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.creator-social-inline:hover {
+    background: var(--bg-tertiary);
+    
+}
+
+.creator-social-inline .settings-icon {
+    width: 18px !important;
+    height: 18px !important;
+    color: var(--lightning-primary) !important;
+}
+
+.creator-social-inline:hover .settings-icon {
+    color: var(--lightning-success) !important;
+}
+
+.extension-info {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+}
+
+.version-badge {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--lightning-success);
+    border-radius: 16px;
+    padding: 4px 10px;
+}
+
+.version-badge span {
+    color: var(--lightning-success);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Theme-sensitive shadow adjustments */
+[data-theme="light"] .creator-spotlight {
+    
+}
+
+[data-theme="dark"] .creator-spotlight {
+    
+}
+
+.setting-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Container for Export and Import buttons - side by side */
+.setting-actions .import-export-row {
+    display: flex;
+    gap: 12px;
+}
+
+/* Ensure Export and Import buttons take equal width */
+.setting-actions .import-export-row .btn-secondary {
+    flex: 1;
+}
+
+.setting-actions button {
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid;
+    font-family: inherit;
+}
+
+.setting-actions .btn-danger {
+    background: var(--danger-color);
+    border-color: var(--danger-color);
+    color: var(--lightning-text-primary);
+}
+
+.setting-actions .btn-danger:hover {
+    background: var(--lightning-danger-hover);
+    border-color: var(--lightning-danger-hover);
+    
+    
+}
+
+/* Force white text and icon for Reset All Data button in Light Theme */
+[data-theme="light"] .setting-actions .btn-danger {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger svg {
+    fill: #ffffff !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger svg path {
+    fill: #ffffff !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger .settings-icon {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    filter: none !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger img {
+    filter: brightness(0) saturate(100%) invert(1) !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger .button-icon {
+    filter: brightness(0) saturate(100%) invert(1) !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger:hover {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger:hover svg {
+    fill: #ffffff !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger:hover svg path {
+    fill: #ffffff !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger:hover .settings-icon {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    filter: none !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger:hover img {
+    filter: brightness(0) saturate(100%) invert(1) !important;
+}
+
+[data-theme="light"] .setting-actions .btn-danger:hover .button-icon {
+    filter: brightness(0) saturate(100%) invert(1) !important;
+}
+
+
+
+/* Settings confirmation */
+.setting-confirmation {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--lightning-success);
+    border: 1px solid var(--lightning-success);
+    color: var(--bg-primary);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    
+}
+
+/* Theme-specific styling for better contrast */
+[data-theme="light"] .setting-confirmation {
+    background: var(--lightning-success);
+    color: #ffffff;
+    border-color: var(--lightning-success);
+}
+
+[data-theme="dark"] .setting-confirmation {
+    background: var(--lightning-success);
+    color: #000000;
+    border-color: var(--lightning-success);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hover);
+}
+
+
+
+/* ==== REMOVED: OLD LIQUID FILL ANIMATION ==== */
+
+/* Ripple effects removed per user request */
+
+/* ==== MINIMALISTIC COPY FEEDBACK ANIMATION ==== */
+.copy-feedback {
+    transform: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light theme copy feedback */
+[data-theme="light"] .copy-feedback {
+    background-color: rgba(34, 197, 94, 0.15) !important;
+    border-color: #22c55e !important;
+    
+}
+
+/* Dark theme copy feedback */
+[data-theme="dark"] .copy-feedback {
+    background-color: rgba(34, 197, 94, 0.25) !important;
+    border-color: #10b981 !important;
+    
+}
+
+.copied-message {
+    position: fixed;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -100%);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+}
+
+/* Light theme copied message */
+[data-theme="light"] .copied-message {
+    background: #16a34a;
+    
+}
+
+/* Dark theme copied message */
+[data-theme="dark"] .copied-message {
+    background: #10b981;
+    
+}
+
+.copied-message.show {
+    opacity: 1;
+    transform: translate(-50%, -120%);
+    animation: copied-message-float 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.copied-message.hide {
+    opacity: 0;
+    transform: translate(-50%, -140%);
+}
+
+@keyframes copied-message-float {
+    0% { opacity: 0; transform: translate(-50%, -100%) scale(0.9); }
+    50% { opacity: 1; transform: translate(-50%, -120%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -140%) scale(0.95); }
+}
+
+/* Enhanced snippet card interaction - keeping project card consistency */
+.snippet-card:hover .snippet-card-content {
+    color: var(--text-primary);
+}
+
+/* ===== IMPORT NOTIFICATION SYSTEM ===== */
+.import-notification {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 10001;
+    min-width: 250px;
+    max-width: calc(100vw - 32px); /* Responsive to viewport width */
+    width: auto;
+    
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.95);
+    
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-sizing: border-box;
+}
+
+/* Responsive design for import notifications */
+@media (max-width: 450px) {
+    .import-notification {
+        max-width: calc(100vw - 40px);
+        min-width: 200px;
+        right: 12px;
+        top: 12px;
+    }
+}
+
+[data-theme="dark"] .import-notification {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.import-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.import-notification.hide {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.import-notification.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.import-notification.error {
+    border-left: 4px solid var(--error-color);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+}
+
+.notification-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.import-notification.success .notification-icon {
+    color: var(--success-color);
+}
+
+.import-notification.error .notification-icon {
+    color: var(--error-color);
+}
+
+.notification-content span {
+    color: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Animation for enhanced feedback */
+@keyframes notification-pulse {
+    to { transform: none; }
+}
+
+.import-notification.show {
+    animation: notification-pulse 0.3s ease-out;
+} 
+
+/* ===== MODERN PROJECT AND SNIPPET MODALS ===== */
+
+/* Modern Project Modal - Light Blue Theme */
+.modern-project-modal {
+    max-width: 320px;
+    width: 75%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    margin: auto;
+}
+
+[data-theme="dark"] .modern-project-modal {
+    
+}
+
+/* Modern Snippet Modal - Light Orange Theme */
+.modern-snippet-modal {
+    max-width: 320px;
+    width: 75%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    margin: auto;
+}
+
+[data-theme="dark"] .modern-snippet-modal {
+    
+}
+
+/* Modern Modal Body for Add Modals */
+.modern-project-modal .modal-body,
+.modern-snippet-modal .modal-body {
+    padding: 20px 24px 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Modal Project Icon Circle - Full Blue */
+.modal-project-icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--lightning-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-theme="dark"] .modal-project-icon-circle {
+    background: var(--lightning-blue);
+}
+
+.modal-project-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
+[data-theme="dark"] .modal-project-icon {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(93%) saturate(7199%) hue-rotate(220deg) brightness(85%) contrast(118%);
+}
+
+/* Modal Snippet Icon Circle - Full Orange */
+.modal-snippet-icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--lightning-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[data-theme="dark"] .modal-snippet-icon-circle {
+    background: var(--lightning-orange);
+}
+
+.modal-snippet-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
+[data-theme="dark"] .modal-snippet-icon {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(93%) saturate(7199%) hue-rotate(30deg) brightness(85%) contrast(118%);
+}
+
+/* Modern Modal Content Styling */
+.modern-project-modal .modern-modal-content,
+.modern-snippet-modal .modern-modal-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.modern-project-modal .modern-modal-title,
+.modern-snippet-modal .modern-modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.modern-project-modal .modern-modal-message,
+.modern-snippet-modal .modern-modal-message {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+    max-width: 240px;
+}
+
+/* Modern Modal Input */
+.modern-modal-input {
+    width: 100%;
+    background: var(--lightning-input-bg);
+    border: 1.5px solid var(--lightning-input-border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: var(--font-size-base);
+    color: var(--lightning-input-text);
+    transition: all var(--transition-fast);
+    font-family: inherit;
+    margin-top: 4px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.modern-modal-input:focus {
+    outline: none;
+    border-color: var(--lightning-input-focus-border);
+    box-shadow: var(--lightning-input-focus-shadow);
+}
+
+/* Modern Modal Footer */
+.modern-project-modal .modal-footer,
+.modern-snippet-modal .modal-footer {
+    display: flex;
+    gap: 8px;
+    padding: 16px 24px 20px;
+    justify-content: center;
+    border-top: none;
+}
+
+/* Action Buttons */
+.btn-create-project {
+    background: var(--lightning-blue);
+    border: 1px solid var(--lightning-blue-border);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    font-family: inherit;
+}
+
+.btn-create-project:hover {
+    background: var(--lightning-blue-light);
+    border-color: var(--lightning-blue-light);
+}
+
+.btn-create-snippet {
+    background: var(--lightning-orange);
+    border: 1px solid var(--lightning-orange-border);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    font-family: inherit;
+}
+
+.btn-create-snippet:hover {
+    background: var(--lightning-orange-light);
+    border-color: var(--lightning-orange-light);
+}
+
+/* Close Button for Modern Add Modals */
+.modern-project-modal .modal-close,
+.modern-snippet-modal .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+}
+
+.modern-project-modal .modal-close:hover,
+.modern-snippet-modal .modal-close:hover {
+    background: var(--bg-hover);
+}
+
+.modern-project-modal .modal-close .button-icon,
+.modern-snippet-modal .modal-close .button-icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    transition: all var(--transition-fast);
+}
+
+/* ===== MODERN CONFIRMATION MODAL ===== */
+
+/* Modern Modal Design */
+.modern-confirm-modal {
+    max-width: 280px;
+    width: 70%;
+    border-radius: 16px;
+    
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    margin: auto;
+}
+
+[data-theme="dark"] .modern-confirm-modal {
+    
+}
+
+/* Modern Modal Body */
+.modern-confirm-modal .modal-body {
+    padding: 20px 24px 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Warning Icon Container */
+.modern-modal-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.warning-icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #dc2626;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+[data-theme="dark"] .warning-icon-circle {
+    background: #fecaca;
+    
+}
+
+.warning-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
+[data-theme="dark"] .warning-icon {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(93%) saturate(7199%) hue-rotate(3deg) brightness(85%) contrast(118%);
+}
+
+/* Modern Modal Content */
+.modern-modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 320px;
+}
+
+.modern-modal-title {
+    font-family: var(--font-primary);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.modern-modal-message {
+    font-family: var(--font-primary);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+    text-align: center;
+    word-wrap: break-word;
+    max-width: 240px;
+}
+
+/* Modern Modal Footer */
+.modern-confirm-modal .modal-footer {
+    padding: 8px 24px 16px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    border-top: none;
+}
+
+/* Modern Cancel Button (Soft Gray) */
+.btn-cancel {
+    flex: 1;
+    max-width: 115px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    background: #f9fafb;
+    color: #374151;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-cancel:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+    
+    
+}
+
+[data-theme="dark"] .btn-cancel {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+[data-theme="dark"] .btn-cancel:hover {
+    background: #4b5563;
+    border-color: #6b7280;
+    
+}
+
+/* Modern Delete Button (Solid Red) */
+.btn-delete {
+    flex: 1;
+    max-width: 115px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 2px solid #dc2626;
+    background: #dc2626;
+    color: white;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-delete:hover {
+    background: #b91c1c;
+    border-color: #b91c1c;
+    
+    
+}
+
+.btn-delete:active {
+    transform: translateY(0);
+    
+}
+
+/* Modern Modal Close Button */
+.modern-confirm-modal .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.modern-confirm-modal .modal-close:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    transform: none;
+}
+
+.modern-confirm-modal .modal-close .button-icon {
+    width: 16px;
+    height: 16px;
+}
+
+
+
+/* ===== LEGACY CONFIRMATION MODAL (for backwards compatibility) ===== */
+
+/* Modal overlay with smooth fade-in animation */
+.modal {
+    transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.modal.show {
+    animation: modalOverlayFadeIn 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Compact confirmation modal content with inline layout */
+.confirm-modal-content {
+    max-width: 300px; /* Slightly increased to accommodate inline icon and title */
+    border-radius: 12px;
+    
+    overflow: hidden; /* No longer need visible overflow for inline layout */
+    position: relative;
+}
+
+[data-theme="dark"] .confirm-modal-content {
+    
+}
+
+/* Properly positioned close button */
+#confirm-modal .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 32px; /* Proper size for better usability */
+    height: 32px;
+    z-index: 10;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8; /* Better visibility */
+}
+
+#confirm-modal .modal-close:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    transform: none; /* Reduced scale for subtler effect */
+    opacity: 1; /* Full opacity on hover */
+}
+
+#confirm-modal .modal-close .button-icon {
+    width: 14px; /* Proper size for 32px button */
+    height: 14px;
+}
+
+/* Modal body with inline header layout */
+#confirm-modal .modal-body {
+    padding: 24px 16px 16px; /* Reduced top padding since icon is now inline */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px; /* Increased for better visual separation */
+}
+
+/* Inline header with icon and title */
+.confirm-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; /* Space between icon and title */
+}
+
+/* Clean delete icon without surrounding box */
+.confirm-modal-icon {
+    width: 24px; /* Reduced to just icon size */
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+/* No dark theme specific styling needed for clean icon */
+
+.confirm-modal-icon .delete-icon {
+    width: 24px; /* Full size to match container */
+    height: 24px;
+    filter: brightness(0) saturate(100%) invert(16%) sepia(93%) saturate(7199%) hue-rotate(3deg) brightness(85%) contrast(118%);
+}
+
+/* Dark theme uses same icon styling */
+
+/* Inline title styling aligned with icon */
+.confirm-modal-title {
+    font-size: 18px; /* Slightly reduced for inline layout */
+    font-weight: 700; /* Bold for importance */
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+    text-align: left; /* Left aligned when inline with icon */
+    letter-spacing: -0.01em; /* Slight letter spacing for readability */
+}
+
+/* Text content styling */
+.confirm-modal-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; /* Reduced from 8px */
+    margin: 0;
+}
+
+.confirm-modal-message {
+    font-size: 14px; /* Standard extension text size */
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.confirm-modal-question {
+    font-size: 14px; /* Standard extension text size */
+    color: var(--text-primary);
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Compact modal footer with buttons close together */
+#confirm-modal .modal-footer {
+    padding: 16px 16px 20px; /* Reduced horizontal padding for compact modal */
+    gap: 8px; /* Reduced gap to bring buttons closer */
+    display: flex;
+    flex-direction: row; /* Ensure buttons are in a single row */
+    justify-content: center; /* Center buttons close together */
+    align-items: center;
+}
+
+#confirm-modal .btn-secondary,
+#confirm-modal .btn-danger {
+    padding: 10px 24px; /* Reduced padding for smaller buttons */
+    border-radius: 8px;
+    font-size: 14px; /* Standard extension button text */
+    font-weight: 600; /* Increased for better readability */
+    min-height: 35px; /* Reduced by 20% from 44px */
+    transition: all 0.2s ease;
+    border: 2px solid; /* Increased border for better definition */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cancel button - compact width */
+#confirm-modal .btn-secondary {
+    flex: none; /* Fixed width instead of flexible */
+    width: 90px; /* Reduced width for compact layout */
+}
+
+/* Delete button - compact width */
+#confirm-modal .btn-danger {
+    width: 90px; /* Matching width for symmetry */
+    flex: none;
+}
+
+/* Enhanced Cancel button */
+#confirm-modal .btn-secondary {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+#confirm-modal .btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    
+     /* Enhanced shadow */
+}
+
+#confirm-modal .btn-secondary:active {
+    transform: translateY(0);
+    
+}
+
+[data-theme="dark"] #confirm-modal .btn-secondary:hover {
+    
+}
+
+/* Enhanced Delete button */
+#confirm-modal .btn-danger {
+    background: var(--lightning-danger);
+    border-color: var(--lightning-danger);
+    color: white;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+}
+
+#confirm-modal .btn-danger:hover {
+    background: #b91c1c; /* Darker red on hover */
+    border-color: #b91c1c;
+    
+     /* Red shadow */
+}
+
+#confirm-modal .btn-danger:active {
+    transform: translateY(0);
+    
+}
+
+/* Animations */
+@keyframes modalOverlayFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+
+
+/* ===== TOAST FUNCTIONALITY REMOVED ===== */
+
+
+/* ===== TOOLTIP/GUIDANCE SYSTEM REMOVED ===== */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Tooltip positioned to the left */
+/* Tooltip positioned to the right */
+/* Guidance tooltip specific styling */
+
+
+/* ===== CREATOR CARD ===== */
+
+.creator-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 16px; /* Reduced from 16px 20px - mobile optimization */
+    margin-bottom: 20px; /* Reduced from 24px - mobile optimization */
+    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.creator-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        var(--lightning-primary) 0%, 
+        var(--lightning-info) 50%, 
+        var(--lightning-success) 100%);
+    border-radius: 12px 12px 0 0;
+}
+
+.creator-card:hover {
+    border-color: var(--lightning-border-secondary);
+}
+
+.creator-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.creator-label::before {
+    content: '⚡';
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.creator-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px; /* Reduced from 16px - mobile optimization */
+}
+
+.creator-details {
+    flex: 1;
+}
+
+.creator-name {
+    font-size: 15px; /* Reduced from 16px - mobile optimization */
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.creator-role {
+    font-size: 12px; /* Reduced from 13px - mobile optimization */
+    color: var(--text-secondary);
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.creator-links {
+    display: flex;
+    gap: 6px; /* Reduced from 8px - mobile optimization */
+    align-items: center;
+}
+
+.creator-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; /* Reduced from 36px - mobile optimization */
+    height: 32px; /* Reduced from 36px - mobile optimization */
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.creator-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.creator-link:hover::before {
+    left: 100%;
+}
+
+.creator-link:hover {
+    transform: none;
+    
+    border-color: var(--lightning-border-secondary);
+}
+
+.creator-link.linkedin:hover {
+    border-color: #0077b5;
+    background: rgba(0, 119, 181, 0.1);
+}
+
+.creator-link.github:hover {
+    border-color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.creator-link-icon {
+    width: 16px; /* Reduced from 18px - mobile optimization */
+    height: 16px; /* Reduced from 18px - mobile optimization */
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    transition: all 0.3s ease;
+}
+
+.creator-link.linkedin:hover .creator-link-icon {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(96%) saturate(1352%) hue-rotate(195deg) brightness(95%) contrast(99%);
+}
+
+[data-theme="dark"] .creator-link.github:hover .creator-link-icon {
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+[data-theme="light"] .creator-link.github:hover .creator-link-icon {
+    filter: brightness(0) saturate(100%) invert(0);
+}
+
+
+
+/* ===== 3-COLUMN PROFILE CARD ===== */
+
+/* Profile Card Container - Optimized for Chrome Extension Width */
+.profile-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px; /* Consistent with other sections */
+    display: grid;
+    grid-template-columns: 78px 1fr; /* Fixed avatar width for better control */
+    gap: 1rem; /* Reduced gap for tighter layout */
+    font-family: var(--font-primary);
+    
+    transition: all 0.3s ease;
+    align-items: center; /* Center avatar vertically */
+    max-width: 100%;
+    overflow: visible;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 50;
+}
+
+.profile-card:hover {
+    
+    
+    border-color: var(--lightning-primary);
+}
+
+/* Column 1: Avatar (center aligned vertically) */
+.profile-avatar-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 10%;
+    object-fit: cover;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar:hover {
+    border-color: var(--lightning-primary);
+    transform: none;
+}
+
+/* Column 2: Name, Title, Badges, Social Buttons (stacked) */
+.profile-content-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem; /* Further reduced gap for tighter layout */
+    text-align: left;
+    align-items: flex-start;
+    min-width: 0; /* Allow shrinking */
+}
+
+/* Social Buttons Section - Now part of content column */
+.profile-buttons-column {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 0.25rem;
+    position: relative;
+    z-index: 102;
+}
+
+/* Badges Group */
+.profile-badges-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tag-badge {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 0.5px solid var(--lightning-border-primary);
+    border-radius: 16px;
+    padding: 0.25rem 0.75rem;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.3px; /* Reduced letter spacing */
+    white-space: nowrap;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.tag-badge:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+    
+}
+
+/* Name & Title Group */
+.profile-info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+    align-items: flex-start;
+}
+
+.profile-name {
+    font-size: 20px; /* Reduced from 24px */
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Creator Name Group with "Crafted by" */
+.creator-name-group {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.crafted-by-text {
+    font-family: 'Lavishly Yours', cursive, var(--font-primary);
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1;
+    font-weight: 400;
+}
+
+.profile-title {
+    font-size: 14px; /* Reduced from 18px */
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 4px 0 0 0;
+    line-height: 1.3;
+    opacity: 0.9;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Social Buttons - Horizontal Layout - Chrome Extension Optimized */
+.profile-social-buttons {
+    display: flex;
+    gap: 0.375rem; /* Reduced gap for tighter layout */
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    max-width: 100%;
+    overflow: visible;
+    position: relative;
+    z-index: 100;
+}
+
+.social-button {
+    background: var(--bg-tertiary);
+    color: var(--lightning-text-secondary);
+    border: 1.5px solid var(--lightning-border-primary);
+    border-radius: 2rem;
+    padding: 4px 8px;
+    font-size: 9px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem; /* Reduced gap */
+    width: fit-content;
+    justify-content: center;
+    flex-shrink: 1; /* Allow shrinking */
+    min-width: 0;
+    position: relative;
+    z-index: 101;
+}
+
+.social-button:hover {
+    
+    
+}
+
+/* Social button icons */
+.social-icon {
+    width: 14px; /* Reduced for Chrome extension */
+    height: 14px; /* Reduced for Chrome extension */
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter, 0));
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+/* LinkedIn Button */
+.linkedin-btn:hover {
+    background: #0077b5;
+    border-color: #0077b5;
+    color: white;
+    
+}
+
+.linkedin-btn:hover .social-icon {
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+/* GitHub Button */
+.github-btn:hover {
+    background: var(--lightning-text-primary);
+    border-color: var(--lightning-text-primary);
+    color: var(--lightning-bg-primary);
+}
+
+.github-btn:hover .social-icon {
+    filter: brightness(0) saturate(100%) invert(var(--icon-filter-invert, 1));
+}
+
+.substack-btn:hover {
+    background: #FF6720;
+    border-color: #FF6720;
+    color: white;
+    
+}
+
+.substack-btn:hover .social-icon {
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+[data-theme="dark"] .github-btn:hover {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #000000;
+}
+
+[data-theme="dark"] .github-btn:hover .social-icon {
+    filter: brightness(0) saturate(100%) invert(0);
+}
+
+[data-theme="light"] .github-btn:hover .social-icon {
+    filter: brightness(0) saturate(100%) invert(1);
+}
+
+
+
+/* ===== USAGE STATISTICS SECTION ===== */
+
+/* Consistent padding for Usage Statistics section - reduced by 10% */
+.stats-section {
+    padding: 13px !important; /* Reduced from 14px */
+}
+
+/* Single line layout for all stats elements */
+.stats-single-line {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem; /* Reduced from 1rem */
+    padding: 0;
+    justify-content: center;
+}
+
+/* Stats header (emoji + title) */
+.stats-header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem; /* Reduced from 0.5rem */
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.stats-title {
+    font-size: 14px; /* Reduced from 15px */
+    font-weight: 600;
+    color: var(--lightning-text-primary);
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stats content (label + count) */
+.stats-content {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem; /* Reduced from 1rem */
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stat label */
+.stat-label {
+    font-size: 0.8rem; /* Reduced from 0.875rem */
+    font-weight: 500;
+    color: var(--lightning-text-secondary);
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Stat value (the actual count) */
+.stat-value {
+    font-size: 1rem; /* Reduced from 1.125rem */
+    font-weight: 700;
+    color: var(--lightning-text-primary);
+    background: var(--lightning-bg-primary);
+    padding: 0.2rem 0.65rem; /* Reduced from 0.25rem 0.75rem */
+    border-radius: 0.45rem; /* Reduced from 0.5rem */
+    border: 1px solid var(--lightning-border-primary);
+    min-width: 2.7rem; /* Reduced from 3rem */
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Darker orange icon-only button */
+.btn-orange-icon {
+    background: #e67e00;
+    color: white;
+    border: 1px solid #e67e00;
+    border-radius: 6px;
+    padding: 7px; /* Reduced from 8px */
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.btn-orange-icon:hover {
+    background: #cc6f00;
+    border-color: #cc6f00;
+    
+    
+}
+
+.btn-orange-icon .reset-icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
+/* Animation for global count updates */
+.global-copy-count.count-updated {
+    animation: globalCountPulse 0.4s ease-out;
+}
+
+@keyframes globalCountPulse {
+    0% {
+        transform: none;
+        background: var(--lightning-success);
+        color: white;
+        border-color: var(--lightning-success);
+    }
+    50% {
+        transform: none;
+        background: var(--lightning-success);
+        color: white;
+        border-color: var(--lightning-success);
+    }
+    100% {
+        transform: none;
+        background: var(--lightning-bg-primary);
+        color: var(--lightning-text-primary);
+        border-color: var(--lightning-border-primary);
+    }
+}
+
+/* ===== DRAG AND DROP FUNCTIONALITY ===== */
+
+/* ===== DRAGGABLE STATES ===== */
+
+/* Mark elements as draggable - ultra smooth */
+.draggable {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: none;
+    -webkit-touch-action: none;
+    transition: transform 0.25s cubic-bezier(0.15, 0.95, 0.25, 1), 
+                box-shadow 0.25s cubic-bezier(0.15, 0.95, 0.25, 1);
+    /* Enhanced smoothness */
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.draggable:hover {
+    transform: translateY(-0.5px); /* More subtle for heavy feeling */
+    box-shadow: 0 1px 4px rgba(var(--lightning-primary-rgb), 0.08);
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+/* Potential drag state - subtle preparation */
+.drag-potential {
+    transform: scale(1.005); /* Very subtle scale for heavy feeling */
+    box-shadow: 0 1px 6px rgba(var(--lightning-primary-rgb), 0.1);
+}
+
+/* Element being dragged - heavy solid block feel */
+.dragging {
+    position: fixed !important;
+    z-index: 10000 !important;
+    cursor: grabbing !important;
+    pointer-events: none;
+    transform: scale(1.01); /* No rotation - solid block feeling */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 
+                0 6px 12px rgba(0, 0, 0, 0.2),
+                0 0 0 2px var(--lightning-primary);
+    opacity: 0.98;
+    transition: none !important;
+    backdrop-filter: none; /* Remove blur for crisp solid feeling */
+}
+
+[data-theme="dark"] .dragging {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 10px 20px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Smooth entrance animation for drag - ultra smooth heavy deliberate start */
+.drag-start {
+    animation: dragStart 0.35s cubic-bezier(0.15, 0.95, 0.25, 1);
+}
+
+@keyframes dragStart {
+    0% {
+        transform: scale(1);
+        box-shadow: none;
+    }
+    30% {
+        transform: scale(1.005);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 
+                    0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+    70% {
+        transform: scale(1.008);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 
+                    0 4px 8px rgba(0, 0, 0, 0.15),
+                    0 0 0 1px var(--lightning-primary);
+    }
+    100% {
+        transform: scale(1.01);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 
+                    0 6px 12px rgba(0, 0, 0, 0.2),
+                    0 0 0 2px var(--lightning-primary);
+    }
+}
+
+/* Ghost element - placeholder left behind */
+.drag-ghost {
+    opacity: 0.4 !important;
+    transform: none !important;
+    border: 2px dashed rgba(var(--lightning-primary-rgb), 0.5) !important;
+    background: rgba(var(--lightning-primary-rgb), 0.08) !important;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(1px);
+}
+
+.drag-ghost * {
+    opacity: 0.6 !important;
+    pointer-events: none;
+}
+
+.drag-ghost::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    background: var(--lightning-primary);
+    mask: url('icons/drag-horizontal.svg') no-repeat center;
+    mask-size: contain;
+    opacity: 0.4;
+    animation: ghostPulse 2s ease-in-out infinite;
+    z-index: 10;
+}
+
+@keyframes ghostPulse {
+    0%, 100% { 
+        opacity: 0.3; 
+        transform: translate(-50%, -50%) scale(1); 
+    }
+    50% { 
+        opacity: 0.7; 
+        transform: translate(-50%, -50%) scale(1.15); 
+    }
+}
+
+/* ===== DROP INDICATORS ===== */
+
+/* Container states during drag */
+.drag-active {
+    position: relative;
+}
+
+/* Removed restrictive border - now just subtle background hint */
+.drag-active::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle at center,
+        rgba(var(--lightning-primary-rgb), 0.02) 0%,
+        rgba(var(--lightning-primary-rgb), 0.01) 50%,
+        transparent 100%);
+    border-radius: 16px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+
+
+/* ===== HOVER STATES DURING DRAG ===== */
+
+/* Items that can be drop targets */
+.drop-target {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.drop-target:hover.draggable:not(.dragging) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(var(--lightning-primary-rgb), 0.15);
+}
+
+.drop-target.drag-over {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(var(--lightning-primary-rgb), 0.2);
+    background: rgba(var(--lightning-primary-rgb), 0.04);
+    border-color: rgba(var(--lightning-primary-rgb), 0.3);
+}
+
+/* ===== SMOOTH ANIMATIONS ===== */
+
+/* Tiles moving like water displacement - instant fluid response */
+.tile-shifting {
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.tile-shift-up {
+    transform: translateY(-8px);
+}
+
+.tile-shift-down {
+    transform: translateY(8px);
+}
+
+/* Ensure ultra smooth hardware acceleration for tiles */
+.project-card,
+.snippet-card {
+    will-change: transform, box-shadow, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    /* Enhanced smoothness for all state changes */
+    transition: all 0.25s cubic-bezier(0.15, 0.95, 0.25, 1);
+}
+
+/* Drop complete animation - ultra satisfying heavy landing */
+.drop-complete {
+    animation: dropComplete 0.8s cubic-bezier(0.15, 0.95, 0.25, 1);
+}
+
+@keyframes dropComplete {
+    0% {
+        transform: scale(1.03);
+        box-shadow: 0 8px 24px rgba(var(--lightning-primary-rgb), 0.3);
+    }
+    30% {
+        transform: scale(0.985);
+        box-shadow: 0 4px 16px rgba(var(--lightning-primary-rgb), 0.2);
+    }
+    60% {
+        transform: scale(1.01);
+        box-shadow: 0 2px 8px rgba(var(--lightning-primary-rgb), 0.1);
+    }
+    80% {
+        transform: scale(0.995);
+        box-shadow: 0 1px 4px rgba(var(--lightning-primary-rgb), 0.05);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: none;
+    }
+}
+
+/* Snap to position animation - heavy settling */
+.snap-to-position {
+    animation: snapToPosition 0.45s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@keyframes snapToPosition {
+    0% {
+        transform: scale(1.01);
+        opacity: 0.98;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===== CONTAINER-SPECIFIC STYLES ===== */
+
+/* Project grid during drag - minimal styling for free-flowing feel */
+.projects-grid.drag-active {
+    transition: all 0.2s ease;
+}
+
+/* Snippet container during drag - minimal styling for free-flowing feel */
+.snippets-container.drag-active {
+    transition: all 0.2s ease;
+}
+
+/* Improved focus indicators for accessibility */
+.draggable:focus-visible {
+    outline: 2px solid var(--lightning-primary);
+    outline-offset: 4px;
+    border-radius: inherit;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .dragging,
+    .drag-ghost,
+    .drop-indicator,
+    .drop-gap,
+    .tile-shifting,
+    .drag-start,
+    .drop-complete,
+    .snap-to-position {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+    }
+    
+    .dragging {
+        opacity: 0.8;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .drop-indicator {
+        background: currentColor;
+        box-shadow: none;
+    }
+    
+    .dragging {
+        border: 3px solid currentColor;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+    
+    .drag-ghost {
+        border: 3px dashed currentColor !important;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .draggable {
+        cursor: default;
+    }
+    
+    .dragging {
+        transform: scale(1.05);
+        cursor: default;
+    }
+    
+    .drop-target:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+/* ===== DRAG HANDLE (if needed) ===== */
+
+.drag-handle {
+    width: 20px;
+    height: 20px;
+    background: var(--text-muted);
+    mask: url('icons/drag-horizontal.svg') no-repeat center;
+    mask-size: contain;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    cursor: grab;
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+}
+
+.draggable:hover .drag-handle {
+    opacity: 0.6;
+}
+
+.drag-handle:hover {
+    opacity: 1;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+.no-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.no-pointer-events {
+    pointer-events: none;
+}
+
+.drag-disabled {
+    cursor: default !important;
+    user-select: text;
+}
+
+/* Ensure dragged elements don't interfere with layout */
+.drag-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+/* CSS custom properties for dynamic values */
+:root {
+    --drag-offset-x: 0px;
+    --drag-offset-y: 0px;
+    --drop-position: 0;
+}
+
+/* ===== END DRAG AND DROP FUNCTIONALITY ===== */
+

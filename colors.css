@@ -1,0 +1,451 @@
+/* =================================================================
+   LightningCopy - Professional Black & White Color System
+   ================================================================= */
+
+/* ===== Core Brand Colors ===== */
+:root {
+  /* Primary Brand Colors */
+  --lightning-primary: #24252a;
+  --lightning-primary-rgb: 36, 37, 42;
+  --lightning-primary-hover: #24252a;
+  --lightning-primary-light: #24252a;
+  --lightning-primary-dark: #24252a;
+  
+  /* Secondary Colors */
+  --lightning-secondary: #24252a;
+  --lightning-secondary-hover: #24252a;
+  --lightning-secondary-light: #24252a;
+  --lightning-secondary-dark: #24252a;
+  
+  /* Neutral Colors */
+  --lightning-gray-50: #f5f8f7;
+  --lightning-gray-100: #f5f8f7;
+  --lightning-gray-200: #edf1ef;
+  --lightning-gray-300: #dde2df;
+  --lightning-gray-400: #6c6c6c;
+  --lightning-gray-500: #505156;
+  --lightning-gray-600: #3e3f44;
+  --lightning-gray-700: #24252a;
+  --lightning-gray-800: #24252a;
+  --lightning-gray-900: #24252a;
+  
+  /* Semantic Colors */
+  --lightning-success: #000000;
+  --lightning-success-light: #000000;
+  --lightning-success-dark: #000000;
+  
+  --lightning-error: #000000;
+  --lightning-error-light: #000000;
+  --lightning-error-dark: #000000;
+  
+  --lightning-warning: #000000;
+  --lightning-warning-light: #000000;
+  --lightning-warning-dark: #000000;
+  
+  /* Danger/Red Colors */
+  --lightning-danger: #f05656;
+  --lightning-danger-light: #f87171;
+  --lightning-danger-dark: #bf4141;
+  --lightning-danger-hover: #bd5050;
+  
+  /* Light Red Colors */
+  --lightning-light-red: #fca5a5;
+  --lightning-light-red-hover: #ef4444;
+  --lightning-light-red-border: #dc2626;
+  --lightning-light-red-text: #7f1d1d;
+  
+  /* Light Blue Colors */
+  --lightning-light-blue: #93c5fd;
+  --lightning-light-blue-hover: #3b82f6;
+  --lightning-light-blue-border: #2563eb;
+  --lightning-light-blue-text: #1e3a8a;
+  
+  /* Light Orange Colors */
+  --lightning-light-orange: #fed7aa;
+  --lightning-light-orange-hover: #f59e0b;
+  --lightning-light-orange-border: #d97706;
+  --lightning-light-orange-text: #92400e;
+  
+  /* Background Colors */
+  --lightning-bg-primary: #f5f8f7;
+  --lightning-bg-secondary: #f5f8f7;
+  --lightning-bg-tertiary: #edf1ef;
+  --lightning-bg-quaternary: #e5ebe8;
+  
+  /* Text Colors */
+  --lightning-text-primary: #24252a;
+  --lightning-text-secondary: #24252a;
+  --lightning-text-tertiary: #505156;
+  --lightning-text-quaternary: #6c6c6c;
+  
+  /* Highlight Colors */
+  --lightning-highlight-bg: #d8dade;
+  --lightning-highlight-hover: #c9ced4;
+  
+  /* Border Colors */
+  --lightning-border-primary: #dde2df;
+  --lightning-border-secondary: #d3d8d5;
+  --lightning-border-tertiary: #bfc4c1;
+  
+  /* Interactive Colors */
+  --lightning-hover-bg: #edf1ef;
+  --lightning-hover-border: #d3d8d5;
+  --lightning-active-bg: #e5ebe8;
+  --lightning-active-border: #bfc4c1;
+  
+  /* Success/Green Colors */
+  --lightning-success-green: #22c55e;
+  --lightning-success-green-light: #16a34a;
+  --lightning-success-green-lighter: #34d399;
+  --lightning-success-green-bg: rgba(34, 197, 94, 0.15);
+  --lightning-success-green-bg-hover: rgba(34, 197, 94, 0.25);
+  --lightning-success-green-border: rgba(34, 197, 94, 0.4);
+  --lightning-success-green-border-hover: rgba(34, 197, 94, 0.5);
+  
+  /* Blue Colors */
+  --lightning-blue: #3b82f6;
+  --lightning-blue-light: #60a5fa;
+  --lightning-blue-bg: rgba(59, 130, 246, 0.08);
+  --lightning-blue-bg-hover: rgba(59, 130, 246, 0.18);
+  --lightning-blue-border: rgba(59, 130, 246, 0.9);
+  --lightning-blue-border-light: #3b82f6;
+  
+  /* Orange/Amber Colors */
+  --lightning-orange: #f59e0b;
+  --lightning-orange-light: #fbbf24;
+  --lightning-orange-bg: rgba(245, 158, 11, 0.04);
+  --lightning-orange-bg-hover: rgba(245, 158, 11, 0.1);
+  --lightning-orange-border: #f59e0b;
+  
+  /* Green Colors (for Remember Section) */
+  --lightning-green: #22c55e;
+  --lightning-green-light: #4ade80;
+  --lightning-green-bg: rgba(34, 197, 94, 0.04);
+  --lightning-green-bg-hover: rgba(34, 197, 94, 0.1);
+  --lightning-green-border: #22c55e;
+  
+  /* Shadows */
+  --lightning-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --lightning-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15);
+  --lightning-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+  --lightning-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.25);
+  --lightning-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.2);
+  --lightning-shadow-active: 0 4px 12px rgba(0, 0, 0, 0.25);
+  
+  /* UI Element Shadows */
+  --lightning-shadow-button: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --lightning-shadow-modal: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --lightning-shadow-dropdown: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --lightning-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --lightning-shadow-toast: 0 2px 8px rgba(0, 0, 0, 0.05);
+  
+  /* Shadow Colors */
+  --lightning-shadow-color: rgba(0, 0, 0, 0.1);
+  --lightning-shadow-color-md: rgba(0, 0, 0, 0.15);
+  --lightning-shadow-color-lg: rgba(0, 0, 0, 0.2);
+  
+  /* Card Colors */
+  --lightning-card-bg: #f5f8f7;
+  --lightning-card-border: #dde2df;
+  --lightning-card-hover-bg: #edf1ef;
+  --lightning-card-hover-border: #d3d8d5;
+  --lightning-card-hover-shadow: var(--lightning-shadow-hover);
+  
+  /* Button Colors */
+  --lightning-btn-primary-bg: #24252a;
+  --lightning-btn-primary-text: #f5f8f7;
+  --lightning-btn-primary-border: #24252a;
+  --lightning-btn-primary-hover-bg: #24252a;
+  --lightning-btn-primary-hover-border: #24252a;
+  
+  --lightning-btn-secondary-bg: #f5f8f7;
+  --lightning-btn-secondary-text: #24252a;
+  --lightning-btn-secondary-border: #d3d8d5;
+  --lightning-btn-secondary-hover-bg: #edf1ef;
+  --lightning-btn-secondary-hover-border: #bfc4c1;
+  
+  /* Input Colors */
+  --lightning-input-bg: #f5f8f7;
+  --lightning-input-border: #d3d8d5;
+  --lightning-input-text: #24252a;
+  --lightning-input-placeholder: #6c6c6c;
+  --lightning-input-focus-border: #24252a;
+  --lightning-input-focus-shadow: 0 0 0 3px rgba(36, 37, 42, 0.1);
+  
+  /* Legacy Variables for Backward Compatibility */
+  --text-primary: var(--lightning-text-primary);
+  --text-secondary: var(--lightning-text-secondary);
+  --text-tertiary: var(--lightning-text-tertiary);
+  --text-muted: var(--lightning-text-quaternary);
+  --bg-primary: var(--lightning-bg-primary);
+  --bg-secondary: var(--lightning-bg-secondary);
+  --bg-tertiary: var(--lightning-bg-tertiary);
+  --bg-hover: var(--lightning-hover-bg);
+  --border-color: var(--lightning-border-primary);
+  --border-hover: var(--lightning-hover-border);
+  --accent-color: var(--lightning-text-primary);
+  --accent-hover: var(--lightning-text-secondary);
+  --success-color: var(--lightning-success);
+  --danger-color: var(--lightning-danger);
+  --error-color: var(--lightning-error);
+  --warning-color: var(--lightning-warning);
+  --card-background: var(--lightning-card-bg);
+  --card-background-hover: var(--lightning-card-hover-bg);
+  --card-border: var(--lightning-card-border);
+  --card-border-hover: var(--lightning-card-hover-border);
+  --card-shadow: var(--lightning-shadow-md);
+  --card-shadow-hover: var(--lightning-shadow-hover);
+  --shadow-sm: var(--lightning-shadow-sm);
+  --shadow-md: var(--lightning-shadow-md);
+  --shadow-lg: var(--lightning-shadow-lg);
+  --shadow-xl: var(--lightning-shadow-xl);
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-bounce: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --backdrop-blur: blur(10px);
+  --icon-filter: 0;
+}
+
+/* ===== Dark Theme ===== */
+[data-theme="dark"] {
+  /* Primary Brand Colors */
+  --lightning-primary: #e8e9eb;
+  --lightning-primary-hover: #e8e9eb;
+  --lightning-primary-light: #e8e9eb;
+  --lightning-primary-dark: #e8e9eb;
+  
+  /* Secondary Colors */
+  --lightning-secondary: #e8e9eb;
+  --lightning-secondary-hover: #e8e9eb;
+  --lightning-secondary-light: #e8e9eb;
+  --lightning-secondary-dark: #e8e9eb;
+  
+  /* Neutral Colors */
+  --lightning-gray-50: #18181a;
+  --lightning-gray-100: #18181a;
+  --lightning-gray-200: #1c1c1c;
+  --lightning-gray-300: #282828;
+  --lightning-gray-400: #85868a;
+  --lightning-gray-500: #bfc0c2;
+  --lightning-gray-600: #d5d6d8;
+  --lightning-gray-700: #e8e9eb;
+  --lightning-gray-800: #e8e9eb;
+  --lightning-gray-900: #e8e9eb;
+  
+  /* Semantic Colors - Dark Theme */
+  --lightning-success: #ffffff;
+  --lightning-success-light: #ffffff;
+  --lightning-success-dark: #ffffff;
+  
+  --lightning-error: #ffffff;
+  --lightning-error-light: #ffffff;
+  --lightning-error-dark: #ffffff;
+  
+  --lightning-warning: #ffffff;
+  --lightning-warning-light: #ffffff;
+  --lightning-warning-dark: #ffffff;
+  
+  /* Danger/Red Colors - Dark Theme */
+  --lightning-danger: #dc2626;
+  --lightning-danger-light: #f87171;
+  --lightning-danger-dark: #b91c1c;
+  --lightning-danger-hover: #b91c1c;
+  
+  /* Light Red Colors for Delete Actions - Dark Theme */
+  --lightning-light-red: #7f1d1d;
+  --lightning-light-red-hover: #991b1b;
+  --lightning-light-red-border: #dc2626;
+  --lightning-light-red-text: #fca5a5;
+  
+  /* Light Blue Colors for Edit Actions - Dark Theme */
+  --lightning-light-blue: #1e3a8a;
+  --lightning-light-blue-hover: #1e40af;
+  --lightning-light-blue-border: #3b82f6;
+  --lightning-light-blue-text: #93c5fd;
+  
+  /* Light Orange Colors for Snippet Actions - Dark Theme */
+  --lightning-light-orange: #92400e;
+  --lightning-light-orange-hover: #b45309;
+  --lightning-light-orange-border: #f59e0b;
+  --lightning-light-orange-text: #fed7aa;
+  
+  /* Background Colors - New Dark Theme */
+  --lightning-bg-primary: #18181a;
+  --lightning-bg-secondary: #18181a;
+  --lightning-bg-tertiary: #1c1c1c;
+  --lightning-bg-quaternary: #282828;
+  
+  /* Text Colors - New Dark Theme */
+  --lightning-text-primary: #e8e9eb;
+  --lightning-text-secondary: #e8e9eb;
+  --lightning-text-tertiary: #bfc0c2;
+  --lightning-text-quaternary: #85868a;
+  
+  /* Highlight Colors - Dark Theme */
+  --lightning-highlight-bg: #2f3034;
+  --lightning-highlight-hover: #3a3b3f;
+  
+  /* Border Colors - Dark Theme - Enhanced visibility inspired by design */
+  --lightning-border-primary: #3a3b3f;
+  --lightning-border-secondary: #4a4b4f;
+  --lightning-border-tertiary: #5a5b5f;
+  
+  /* Interactive Colors - Dark Theme */
+  --lightning-hover-bg: #1c1c1c;
+  --lightning-hover-border: #4a4b4f;
+  --lightning-active-bg: #282828;
+  --lightning-active-border: #5a5b5f;
+  
+  /* Success/Green Colors - Dark Theme */
+  --lightning-success-green: #10b981;
+  --lightning-success-green-light: #16a34a;
+  --lightning-success-green-lighter: #34d399;
+  --lightning-success-green-bg: rgba(16, 185, 129, 0.15);
+  --lightning-success-green-bg-hover: rgba(16, 185, 129, 0.25);
+  --lightning-success-green-border: rgba(16, 185, 129, 0.4);
+  --lightning-success-green-border-hover: rgba(16, 185, 129, 0.5);
+  
+  /* Blue Colors for UI Elements - Dark Theme */
+  --lightning-blue: #60a5fa;
+  --lightning-blue-light: #3b82f6;
+  --lightning-blue-bg: rgba(96, 165, 250, 0.06);
+  --lightning-blue-bg-hover: rgba(96, 165, 250, 0.15);
+  --lightning-blue-border: rgba(96, 165, 250, 0.85);
+  --lightning-blue-border-light: #60a5fa;
+  
+  /* Orange/Amber Colors - Dark Theme */
+  --lightning-orange: #fbbf24;
+  --lightning-orange-light: #f59e0b;
+  --lightning-orange-bg: rgba(251, 191, 36, 0.06);
+  --lightning-orange-bg-hover: rgba(251, 191, 36, 0.15);
+  --lightning-orange-border: #fbbf24;
+  
+  /* Professional Shadows - Brighter for Dark Theme */
+  --lightning-shadow-sm: 0 1px 2px rgba(255, 255, 255, 0.15);
+  --lightning-shadow-md: 0 4px 6px rgba(255, 255, 255, 0.2);
+  --lightning-shadow-lg: 0 10px 15px rgba(255, 255, 255, 0.25);
+  --lightning-shadow-xl: 0 20px 25px rgba(255, 255, 255, 0.3);
+  --lightning-shadow-hover: 0 8px 25px rgba(255, 255, 255, 0.25);
+  --lightning-shadow-active: 0 4px 12px rgba(255, 255, 255, 0.3);
+  
+  /* Additional specific shadows for UI elements - Dark Theme */
+  --lightning-shadow-button: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --lightning-shadow-modal: 0 8px 25px rgba(0, 0, 0, 0.4);
+  --lightning-shadow-dropdown: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --lightning-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --lightning-shadow-toast: 0 2px 8px rgba(0, 0, 0, 0.3);
+  
+  /* Theme-aware shadow colors for dark mode */
+  --lightning-shadow-color: rgba(255, 255, 255, 0.08);
+  --lightning-shadow-color-md: rgba(255, 255, 255, 0.12);
+  --lightning-shadow-color-lg: rgba(255, 255, 255, 0.15);
+  
+  /* Card Colors - Dark Theme */
+  --lightning-card-bg: #18181a;
+  --lightning-card-border: #3a3b3f;
+  --lightning-card-hover-bg: #1c1c1c;
+  --lightning-card-hover-border: #4a4b4f;
+  --lightning-card-hover-shadow: var(--lightning-shadow-hover);
+  
+  /* Button Colors - Dark Theme */
+  --lightning-btn-primary-bg: #e8e9eb;
+  --lightning-btn-primary-text: #18181a;
+  --lightning-btn-primary-border: #e8e9eb;
+  --lightning-btn-primary-hover-bg: #e8e9eb;
+  --lightning-btn-primary-hover-border: #e8e9eb;
+  
+  --lightning-btn-secondary-bg: #18181a;
+  --lightning-btn-secondary-text: #e8e9eb;
+  --lightning-btn-secondary-border: #3a3b3f;
+  --lightning-btn-secondary-hover-bg: #1c1c1c;
+  --lightning-btn-secondary-hover-border: #4a4b4f;
+  
+  /* Input Colors - Dark Theme */
+  --lightning-input-bg: #18181a;
+  --lightning-input-border: #3a3b3f;
+  --lightning-input-text: #e8e9eb;
+  --lightning-input-placeholder: #85868a;
+  --lightning-input-focus-border: #e8e9eb;
+  --lightning-input-focus-shadow: 0 0 0 3px rgba(232, 233, 235, 0.1);
+  
+  /* Legacy Variables for Backward Compatibility - Dark Theme */
+  --text-primary: var(--lightning-text-primary);
+  --text-secondary: var(--lightning-text-secondary);
+  --text-tertiary: var(--lightning-text-tertiary);
+  --text-muted: var(--lightning-text-quaternary);
+  --bg-primary: var(--lightning-bg-primary);
+  --bg-secondary: var(--lightning-bg-secondary);
+  --bg-tertiary: var(--lightning-bg-tertiary);
+  --bg-hover: var(--lightning-hover-bg);
+  --border-color: var(--lightning-border-primary);
+  --border-hover: var(--lightning-hover-border);
+  --accent-color: var(--lightning-text-primary);
+  --accent-hover: var(--lightning-text-secondary);
+  --success-color: var(--lightning-success);
+  --danger-color: var(--lightning-danger);
+  --error-color: var(--lightning-error);
+  --warning-color: var(--lightning-warning);
+  --card-background: var(--lightning-card-bg);
+  --card-background-hover: var(--lightning-card-hover-bg);
+  --card-border: var(--lightning-card-border);
+  --card-border-hover: var(--lightning-card-hover-border);
+  --card-shadow: var(--lightning-shadow-md);
+  --card-shadow-hover: var(--lightning-shadow-hover);
+  --shadow-sm: var(--lightning-shadow-sm);
+  --shadow-md: var(--lightning-shadow-md);
+  --shadow-lg: var(--lightning-shadow-lg);
+  --shadow-xl: var(--lightning-shadow-xl);
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-bounce: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --backdrop-blur: blur(10px);
+  --icon-filter: 1;
+  
+  /* SHADCN-style solid hover feedback */
+  --lightning-hover-opacity: 0.95;
+  --lightning-hover-brightness: 1.05;
+  --lightning-card-hover-brightness: 1.02;
+  --lightning-button-hover-brightness: 1.03;
+}
+
+/* ===== Utility Classes ===== */
+.text-primary { color: var(--lightning-text-primary); }
+.text-secondary { color: var(--lightning-text-secondary); }
+.text-tertiary { color: var(--lightning-text-tertiary); }
+.text-quaternary { color: var(--lightning-text-quaternary); }
+
+.bg-primary { background-color: var(--lightning-bg-primary); }
+.bg-secondary { background-color: var(--lightning-bg-secondary); }
+.bg-tertiary { background-color: var(--lightning-bg-tertiary); }
+.bg-quaternary { background-color: var(--lightning-bg-quaternary); }
+
+.border-primary { border-color: var(--lightning-border-primary); }
+.border-secondary { border-color: var(--lightning-border-secondary); }
+.border-tertiary { border-color: var(--lightning-border-tertiary); }
+
+
+
+/* ===== Professional Animation Variables ===== */
+:root {
+  --lightning-transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --lightning-transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --lightning-transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Simple Monochrome Animations */
+  --lightning-hover-transform: none;
+  --lightning-active-transform: none;
+  --lightning-focus-outline: 2px solid var(--lightning-primary);
+  --lightning-focus-offset: 2px;
+  
+  /* Responsive Design - Larger Click Targets */
+  --lightning-min-touch-target: 44px;
+  --lightning-button-padding: 12px 24px;
+  --lightning-compact-padding: 8px 16px;
+  --lightning-spacing-touch: 16px;
+  
+  /* SHADCN-style solid hover feedback */
+  --lightning-hover-opacity: 0.95;
+  --lightning-hover-brightness: 1.05;
+  --lightning-card-hover-brightness: 1.02;
+  --lightning-button-hover-brightness: 1.03;
+} 

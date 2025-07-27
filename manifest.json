@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Lightning Copy",
+  "version": "1.0.0",
+  "description": "Access and Copy from your snippet repository instantly!",
+  "author": "Paluvadi Surya",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Lightning Copy - Your Snippet Manager",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*.svg", "icons/*.png", "project-icons/*.svg"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+} 

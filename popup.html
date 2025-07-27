@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LightningCopy</title>
+    <link rel="stylesheet" href="colors.css">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body data-theme="dark">
+    <!-- Universal Header -->
+    <header class="universal-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="header-left-content">
+                    <div class="header-icon">
+                        <img src="icons/logo.svg" alt="Lightning" class="header-lightning-icon">
+                    </div>
+                    <div class="header-text">
+                        <h1 class="header-title">Lightning Copy</h1>
+                        <p class="header-subtitle">Access and Copy your snippets instantly</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <button id="theme-toggle" class="header-btn">
+                    <img src="icons/sun.svg" alt="Light theme" class="sun-icon theme-icon">
+                    <img src="icons/moon.svg" alt="Dark theme" class="moon-icon theme-icon">
+                </button>
+                <button id="settings-btn" class="header-btn" title="Settings">
+                    <img src="icons/settings.svg" alt="Settings" class="button-icon">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Project Navigation Bar -->
+        <nav class="project-nav" id="project-nav">
+            <div class="nav-content">
+                <button class="nav-back-btn" id="nav-back-btn" title="Back to projects" style="display: none;" tabindex="0">
+                    <img src="icons/back.svg" alt="Back" class="button-icon">
+                </button>
+                <div class="nav-projects-wrapper" id="nav-projects-wrapper">
+                    <div class="nav-projects" id="nav-projects" role="tablist" aria-label="Project navigation">
+                        <!-- Projects will be populated here -->
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Home View -->
+            <div class="view" id="home-view">
+                <div class="projects-header">
+                    <h1 class="projects-title">Projects</h1>
+                    <button class="header-add-btn" id="header-add-project-btn" title="Add new project">
+                        <img src="icons/plus.svg" alt="Add project" class="button-icon">
+                        <span>New Project</span>
+                    </button>
+                </div>
+                
+                <div class="projects-grid" id="projects-grid">
+                    <!-- Projects will be populated here -->
+                </div>
+
+            </div>
+
+            <!-- Project View -->
+            <div class="view" id="project-view" style="display: none;">
+                <div class="snippets-container" id="snippets-container">
+                    <!-- Snippets will be populated here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating Add Project Button - positioned outside scrolling area -->
+        <button class="add-project-btn" id="add-project-btn">
+            <img src="icons/plus.svg" alt="Add project" class="button-icon">
+        </button>
+    </div>
+    
+    <!-- Floating Add Snippet Button - COMPLETELY OUTSIDE ALL CONTAINERS -->
+    <button class="add-snippet-btn-floating" id="add-snippet-btn" style="display: none;">
+        <img src="icons/plus.svg" alt="Add snippet" class="button-icon">
+    </button>
+
+    <!-- Modals -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content modern-project-modal">
+            <button class="modal-close" id="project-modal-close" aria-label="Close modal">
+                <img src="icons/close.svg" alt="Close" class="button-icon">
+            </button>
+            
+            <div class="modal-body">
+                <div class="modern-modal-icon">
+                    <div class="modal-project-icon-circle">
+                        <img src="icons/plus-project.svg" alt="Add Project" class="modal-project-icon">
+                    </div>
+                </div>
+                
+                <div class="modern-modal-content">
+                    <h2 class="modern-modal-title" id="project-modal-title">Create New Project</h2>
+                    <p class="modern-modal-message">Give your project a memorable name to organize your snippets.</p>
+                    <input type="text" id="project-name-input" placeholder="Enter project name..." maxlength="50" class="modern-modal-input">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-cancel" id="project-modal-cancel">Cancel</button>
+                <button class="btn-create-project" id="project-modal-save">Create Project</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="snippet-modal">
+        <div class="modal-content modern-snippet-modal">
+            <button class="modal-close" id="snippet-modal-close" aria-label="Close modal">
+                <img src="icons/close.svg" alt="Close" class="button-icon">
+            </button>
+            
+            <div class="modal-body">
+                <div class="modern-modal-icon">
+                    <div class="modal-snippet-icon-circle">
+                        <img src="icons/plus-simple.svg" alt="Add Snippet" class="modal-snippet-icon">
+                    </div>
+                </div>
+                
+                <div class="modern-modal-content">
+                    <h2 class="modern-modal-title" id="snippet-modal-title">Add New Snippet</h2>
+                    <p class="modern-modal-message">Add code, text, or any content you want to copy quickly.</p>
+                    <input type="text" id="snippet-content-input" placeholder="Enter snippet content..." maxlength="1000" class="modern-modal-input">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-cancel" id="snippet-modal-cancel">Cancel</button>
+                <button class="btn-create-snippet" id="snippet-modal-save">Add Snippet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+        <div class="modal-content modern-confirm-modal">
+            <button class="modal-close" id="confirm-modal-close" aria-label="Close modal">
+                <img src="icons/close.svg" alt="Close" class="button-icon">
+            </button>
+            
+            <div class="modal-body">
+                <div class="modern-modal-icon">
+                    <div class="warning-icon-circle">
+                        <img src="icons/alert-triangle.svg" alt="Warning" class="warning-icon">
+                    </div>
+                </div>
+                
+                <div class="modern-modal-content">
+                    <h2 class="modern-modal-title" id="confirm-modal-title">Delete Project</h2>
+                    <p class="modern-modal-message" id="confirm-modal-message">You're about to delete the Project. Are you sure?</p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-cancel" id="confirm-modal-cancel">No, Keep It.</button>
+                <button class="btn-delete" id="confirm-modal-confirm">Yes, Delete!</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Copy Success Animation -->
+    <div class="copy-success" id="copy-success">
+        <svg class="spinner" viewBox="0 0 48 48" role="img" aria-label="Copy success animation">
+            <g fill="none" stroke="currentcolor" stroke-linecap="round" stroke-width="4">
+                <circle class="spinner__worm" cx="24" cy="24" r="22" stroke-dasharray="138.23 138.23" stroke-dashoffset="-51.84" transform="rotate(-119)" />
+                <circle class="spinner__pop-end" stroke="var(--success-color)" cx="24" cy="24" r="18" opacity="0" />
+                <g fill="currentcolor" stroke="none">
+                    <circle class="spinner__pop-start" fill="var(--success-color)" cx="24" cy="24" r="20" opacity="0" />
+                    <g>
+                        <g class="spinner__pop-dot-group" opacity="0">
+                            <circle class="spinner__pop-dot" fill="var(--dot-color-1)" cx="22" cy="5" r="1.5" />
+                        </g>
+                        <g class="spinner__pop-dot-group" opacity="0">
+                            <circle class="spinner__pop-dot" fill="var(--dot-color-2)" cx="26" cy="2" r="1.5" />
+                        </g>
+                    </g>
+                </g>
+                <path class="spinner__check" d="M 17 25 L 22 30 C 22 30 32.2 19.8 37.3 14.7 C 41.8 10.2 39 7.9 39 7.9" stroke-dasharray="36.7 36.7" stroke-dashoffset="-36.7" />
+            </g>
+        </svg>
+        <span>Copied!</span>
+    </div>
+
+
+
+    <!-- Tooltip Container Removed -->
+
+    <!-- Load modular scripts -->
+    <script src="project-data.js"></script>
+    <script src="popup-storage.js"></script>
+    <script src="drag-drop.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
